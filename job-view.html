@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Breljak – Job Application</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e4e8;
+            color: #1E293B;
+            padding: 2rem 1.5rem 3rem;
+        }
+
+        .page {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2563EB;
+            text-decoration: none;
+            margin-bottom: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .page-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 0.3rem;
+        }
+
+        .doc-block {
+            background: #ffffff;
+            border-radius: 8px;
+            border-top: 3px solid #2563EB;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            padding: 1rem 1rem 0;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .doc-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 0.75rem;
+        }
+
+        .doc-block-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .doc-block-open {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #2563EB;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .doc-block-open:hover {
+            text-decoration: underline;
+        }
+
+        .doc-frame {
+            width: 100%;
+            height: 85vh;
+            border: 1px solid #E2E8F0;
+            border-radius: 4px 4px 0 0;
+            display: block;
+        }
+
+        .empty-state {
+            font-size: 0.8rem;
+            color: #64748B;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <a class="back-link" href="index.html">&larr; Back to Job Applications</a>
+
+        <div class="page-header">
+            <h1 class="page-title" id="job-title">Job Application</h1>
+            <p class="page-subtitle" id="job-company"></p>
+        </div>
+
+        <div id="content"></div>
+        <p class="empty-state" id="empty-state" style="display:none;">No job specified.</p>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const folder = params.get('folder');
+        const title = params.get('title') || 'Job Application';
+        const company = params.get('company') || '';
+
+        document.getElementById('job-title').textContent = title;
+        document.getElementById('job-company').textContent = company;
+
+        const content = document.getElementById('content');
+        const emptyState = document.getElementById('empty-state');
+
+        if (!folder) {
+            emptyState.style.display = 'block';
+        } else {
+            const cvPath = `jobs/${folder}/cv.html`;
+            const coverPath = `jobs/${folder}/cover_letter.html`;
+
+            content.innerHTML = `
+                <div class="doc-block">
+                    <div class="doc-block-header">
+                        <span class="doc-block-title">CV</span>
+                        <a class="doc-block-open" href="${cvPath}" target="_blank" rel="noopener">Open full page &#8599;</a>
+                    </div>
+                    <iframe class="doc-frame" src="${cvPath}" title="CV"></iframe>
+                </div>
+                <div class="doc-block">
+                    <div class="doc-block-header">
+                        <span class="doc-block-title">Cover Letter</span>
+                        <a class="doc-block-open" href="${coverPath}" target="_blank" rel="noopener">Open full page &#8599;</a>
+                    </div>
+                    <iframe class="doc-frame" src="${coverPath}" title="Cover Letter"></iframe>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+
+</html>

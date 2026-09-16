@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Breljak – Job Applications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e4e8;
+            color: #1E293B;
+            padding: 3rem 1.5rem;
+        }
+
+        .page {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0F172A;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 0.35rem;
+        }
+
+        .tracker-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: #2563EB;
+            text-decoration: none;
+            padding: 0.55rem 1rem;
+            border-radius: 6px;
+            white-space: nowrap;
+            margin-top: 0.15rem;
+            transition: background 0.15s ease;
+        }
+
+        .tracker-btn:hover {
+            background: #1D4ED8;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.1rem;
+        }
+
+        .job-card {
+            background: #ffffff;
+            border-radius: 8px;
+            border-top: 3px solid #2563EB;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            padding: 1.25rem 1.4rem;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+        }
+
+        .job-card:focus-visible {
+            outline: 2px solid #2563EB;
+            outline-offset: 2px;
+        }
+
+        .job-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #0F172A;
+            line-height: 1.35;
+        }
+
+        .job-company {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: #64748B;
+            margin-top: 0.3rem;
+        }
+
+        .job-hint {
+            font-size: 0.64rem;
+            color: #2563EB;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 0.8rem;
+        }
+
+        .stat-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.7rem;
+        }
+
+        .stat-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .stat-good { background: #DBEAFE; color: #1D4ED8; }
+        .stat-excellent { background: #DCFCE7; color: #15803D; }
+        .stat-poor { background: #FEE2E2; color: #B91C1C; }
+        .stat-neutral { background: #F1F5F9; color: #475569; }
+
+        .empty-state {
+            font-size: 0.8rem;
+            color: #64748B;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Job Applications</h1>
+                <p class="page-subtitle">Click a card to open its tailored CV and cover letter.</p>
+            </div>
+            <a class="tracker-btn" href="tracker.html">Job Hunt Tracker &rarr;</a>
+        </div>
+
+        <div class="job-grid" id="job-grid"></div>
+        <p class="empty-state" id="empty-state" style="display:none;">No job applications yet.</p>
+    </div>
+
+    <script>
+        // Add one entry per folder under jobs/. Each folder must contain
+        // cv.html and cover_letter.html.
+        //
+        // Scoring fields (computed once when the job is created — see
+        // CLAUDE.md "Job Application Workflow" for the methodology):
+        //   fitScore       0-10 fit assessment from the CV skill's Step 1
+        //   matchLevel     "Poor" (<5) / "Good" (5-7.4) / "Excellent" (>=7.5)
+        //   atsScore       0-100, % of JD keywords/phrases found verbatim
+        //                  in the tailored CV + cover letter
+        //   adjustment     "Low" (<35%) / "Medium" (35-65%) / "High" (>65%)
+        //                  content-similarity diff vs. the base template
+        const jobs = [
+            {
+                title: "Online Marketing & Social Media Manager",
+                company: "Pistor AG",
+                folder: "online-marketing-social-media-manager-pistor",
+                fitScore: 6.5,
+                matchLevel: "Good",
+                atsScore: 81,
+                adjustment: "High"
+            }
+        ];
+
+        const grid = document.getElementById('job-grid');
+        const emptyState = document.getElementById('empty-state');
+
+        function matchClass(level) {
+            if (level === "Excellent") return "stat-excellent";
+            if (level === "Good") return "stat-good";
+            return "stat-poor";
+        }
+
+        function atsClass(score) {
+            if (score >= 80) return "stat-excellent";
+            if (score >= 60) return "stat-good";
+            return "stat-poor";
+        }
+
+        if (jobs.length === 0) {
+            emptyState.style.display = 'block';
+        } else {
+            jobs.forEach(job => {
+                const card = document.createElement('div');
+                card.className = 'job-card';
+                card.tabIndex = 0;
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', `Open CV and cover letter for ${job.title} at ${job.company}`);
+
+                card.innerHTML = `
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">${job.company}</div>
+                    <div class="stat-row">
+                        <span class="stat-badge ${matchClass(job.matchLevel)}">Match: ${job.matchLevel} (${job.fitScore}/10)</span>
+                        <span class="stat-badge ${atsClass(job.atsScore)}">ATS: ${job.atsScore}%</span>
+                        <span class="stat-badge stat-neutral">Adjustment: ${job.adjustment}</span>
+                    </div>
+                    <div class="job-hint">CV + Cover Letter</div>
+                `;
+
+                const open = () => {
+                    const params = new URLSearchParams({
+                        folder: job.folder,
+                        title: job.title,
+                        company: job.company
+                    });
+                    window.location.href = `job-view.html?${params.toString()}`;
+                };
+
+                card.addEventListener('click', open);
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        open();
+                    }
+                });
+
+                grid.appendChild(card);
+            });
+        }
+    </script>
+
+</body>
+
+</html>

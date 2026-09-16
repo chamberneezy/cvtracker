@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Breljak – CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e4e8;
+            color: #1E293B;
+            padding: 2rem 1rem;
+        }
+
+        /* ── Outer wrapper ── */
+        .cv-page {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ── Two-column grid ──
+           The linear-gradient on cv-grid paints the sidebar colour across
+           all printed pages so the light-grey column never disappears on page 2. */
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 235px 1fr;
+            background: linear-gradient(to right, #F3F4F6 235px, #ffffff 235px);
+            min-height: 1050px;
+        }
+
+        /* ════════════════════════════════
+           SIDEBAR
+        ════════════════════════════════ */
+        .sidebar {
+            padding: 0 1.4rem 2rem 1.4rem;
+            color: #1E293B;
+            border-right: 1px solid #E5E7EB;
+        }
+
+        .sidebar-photo {
+            padding-top: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .sidebar-photo img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #E5E7EB;
+            display: block;
+        }
+
+        .sidebar-title {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #0F172A;
+            border-bottom: 1px solid #CBD5E1;
+            padding-bottom: 0.28rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .sidebar-body {
+            font-size: 0.68rem;
+            line-height: 1.55;
+            color: #475569;
+        }
+
+        .sidebar-body .cat {
+            font-weight: 700;
+            color: #0F172A;
+            display: block;
+            margin-bottom: 0.05rem;
+        }
+
+        .sidebar-body .item {
+            margin-bottom: 0.6rem;
+        }
+
+        .sidebar-body .item:last-child { margin-bottom: 0; }
+
+        .edu-school {
+            font-weight: 700;
+            color: #0F172A;
+            text-transform: uppercase;
+            font-size: 0.62rem;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.08rem;
+        }
+
+        .edu-degree {
+            font-size: 0.68rem;
+            color: #475569;
+            line-height: 1.4;
+            margin-bottom: 0.65rem;
+        }
+
+        /* ════════════════════════════════
+           MAIN CONTENT
+        ════════════════════════════════ */
+        .main {
+            background: #ffffff;
+            padding: 1.75rem 2rem 2rem 2rem;
+        }
+
+        /* Header */
+        .cv-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0F172A;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .cv-subtitle {
+            font-size: 0.85rem;
+            color: #475569;
+            font-weight: 400;
+            margin-top: 0.2rem;
+        }
+
+        .cv-contact {
+            font-size: 0.7rem;
+            color: #64748B;
+            margin-top: 0.4rem;
+            line-height: 1.6;
+        }
+
+        .cv-contact a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        .cv-contact .sep { color: #CBD5E1; margin: 0 0.3rem; }
+
+        /* Section titles */
+        .section-title {
+            font-size: 0.66rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #0F172A;
+            border-bottom: 2px solid #2563EB;
+            padding-bottom: 0.28rem;
+            margin-top: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Experience entries */
+        .job {
+            margin-bottom: 1.4rem;
+        }
+
+        .job:last-child { margin-bottom: 0; }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .job-company {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .job-date {
+            font-size: 0.68rem;
+            color: #64748B;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .job-title {
+            font-size: 0.72rem;
+            color: #2563EB;
+            font-weight: 600;
+            margin-top: 0.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .job-desc {
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.6;
+            margin-bottom: 0.32rem;
+        }
+
+        .job-bullets {
+            list-style: disc;
+            margin-left: 1.1rem;
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .job-bullets li {
+            margin-bottom: 0.22rem;
+        }
+
+        .job-bullets li:last-child { margin-bottom: 0; }
+
+        .job-bullets .bullet-label {
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        /* About Me */
+        .about-text {
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.65;
+        }
+
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: #2563EB;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* ════════════════════════════════
+           PRINT
+        ════════════════════════════════ */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* Painting the sidebar colour on body (the canvas) instead of
+               .cv-grid means it fills every physical page down to the
+               bottom edge, even past where the last line of content ends. */
+            body {
+                background: linear-gradient(to right, #F3F4F6 235px, #ffffff 235px) !important;
+                padding: 0 !important;
+            }
+
+            .cv-page {
+                max-width: 100% !important;
+            }
+
+            .cv-grid {
+                min-height: 100vh;
+            }
+
+            .print-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Save as PDF / Print</button>
+
+<div class="cv-page">
+    <div class="cv-grid">
+
+        <!-- ══════════════════════════
+             SIDEBAR
+        ══════════════════════════ -->
+        <aside class="sidebar">
+
+            <div class="sidebar-photo">
+                <img src="./profile_photo.png"
+                     onerror="this.onerror=null;this.src='https://placehold.co/220x220/1e4a6e/ffffff?text=MB';"
+                     alt="Mario Breljak" />
+            </div>
+
+            <!-- TOOLS -->
+            <div class="sidebar-title">Tools</div>
+
+            <div class="sidebar-body">
+                <div class="item">
+                    <span class="cat">Demand Gen & Paid Channels:</span>
+                    Google Ads, LinkedIn Campaign Manager, Meta Business Manager, B2B Lead Generation, Partner Marketing, Paid Social & Search Strategy
+                </div>
+                <div class="item">
+                    <span class="cat">Funnel, SEO & Optimization:</span>
+                    Landing Page & Webshop QA, Funnel Optimization, Conversion Rate Optimization (CRO), A/B Testing, SEO & AI Search (GEO)
+                </div>
+                <div class="item">
+                    <span class="cat">CRM & Marketing Automation:</span>
+                    HubSpot, GTM (Client & Server-Side), Meta Pixel & CAPI, Conversion APIs, GA4, Swiss FADP / GDPR Compliance
+                </div>
+                <div class="item">
+                    <span class="cat">Analytics & Pipeline Metrics:</span>
+                    Looker Studio, GCP-BigQuery, SQL, Campaign Performance Dashboards, Multi-Channel Attribution, Pipeline Metrics (CPL, CAC, ROAS)
+                </div>
+                <div class="item">
+                    <span class="cat">AI & Workflow Automation:</span>
+                    AI Tools & Agents (ChatGPT, Claude), Workflow Automation, Automated QA Scripts, Jira, Asana, Budget Control
+                </div>
+            </div>
+
+            <!-- EDUCATION -->
+            <div class="sidebar-title">Education</div>
+
+            <div>
+                <span class="edu-school">University of Zagreb</span>
+                <div class="edu-degree">Master of Science,<br>Information Technology</div>
+
+                <span class="edu-school">Gymnasium Varazdin</span>
+                <div class="edu-degree" style="margin-bottom:0;">Natural Science and Mathematics</div>
+            </div>
+
+        </aside>
+
+        <!-- ══════════════════════════
+             MAIN CONTENT
+        ══════════════════════════ -->
+        <main class="main">
+
+            <!-- Header -->
+            <div style="margin-bottom:0.6rem;">
+                <h1 class="cv-name">Mario Breljak</h1>
+                <p class="cv-subtitle">DIGITAL MARKETING & GROWTH LEAD | PERFORMANCE & DATA ANALYTICS</p>
+                <p class="cv-contact">
+                    Luzern, Switzerland
+                    <span class="sep">|</span>
+                    +41 76 804 63 17
+                    <span class="sep">|</span>
+                    <a href="https://www.linkedin.com/in/mario-breljak-34322182/">LinkedIn Profile</a>
+                    <span class="sep">|</span>
+                    mario.breljak@gmail.com
+                </p>
+            </div>
+
+            <!-- ABOUT ME -->
+            <section>
+                <h3 class="section-title">About Me</h3>
+                <p class="about-text">
+                    Hands-on Performance Marketing & Demand Generation Specialist with an MSc in IT and over a decade of experience scaling digital acquisition channels, funnels, and tracking architectures. Proven track record in driving B2B growth across Google Ads, LinkedIn Ads, and organic search (SEO/GEO) while leveraging HubSpot and AI automation to turn digital attention into qualified pipeline. Analytical, growth-minded operator skilled in continuous A/B testing, CRO, server-side tracking, and optimizing core marketing metrics (CPL, CAC, ROAS).
+                </p>
+            </section>
+
+            <!-- EXPERIENCE -->
+            <section>
+                <h3 class="section-title">Experience</h3>
+
+                <!-- Swiss Casinos -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">Swiss Casinos, Switzerland</span>
+                        <span class="job-date">Feb 2026 – Present</span>
+                    </div>
+                    <div class="job-title">Digital Campaign & Performance Specialist</div>
+                    <p class="job-desc">Hands-on lead for multi-channel performance marketing, paid channel acquisition (Google &amp; Paid Social), conversion funnel optimization, and strict data privacy compliance.</p>
+                    <ul class="job-bullets">
+                        <li>Paid Media Execution & Agency Steering: Hands-on setup, pacing, and optimization of multi-channel paid campaigns (Google Ads, Paid Social) and agency management to drive customer acquisition and ROAS</li>
+                        <li>Conversion & Funnel QA: End-to-end quality assurance across landing pages, web funnels, and registration flows; issued go/no-go approvals for campaign and platform releases</li>
+                        <li>Tracking Architecture & Data Privacy: Designed and deployed server-side GTM pipelines, custom conversion APIs, and pixel architectures while enforcing strict Swiss FADP and GDPR compliance</li>
+                        <li>AI-Driven QA & Workflow Scaling: Developed and maintained automated AI and scripting tools to monitor tag integrity, prevent tracking downtime, and scale campaign QA workflows</li>
+                    </ul>
+                </div>
+
+                <!-- 20 Minuten -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">20 Minuten, Switzerland</span>
+                        <span class="job-date">Jan 2023 – Feb 2026</span>
+                    </div>
+                    <div class="job-title">Data Analyst &amp; Digital Campaign Tracking Specialist</div>
+                    <p class="job-desc">Strategic advisor for paid growth initiatives, SEO/GEO optimization, and platform user journey analytics across Switzerland's highest-traffic news platform.</p>
+                    <ul class="job-bullets">
+                        <li>Paid Media & Growth Consulting: Provided strategic recommendations and data-driven insights for paid acquisition initiatives, aligning commercial goals with high-performing target audiences</li>
+                        <li>SEO & GEO (AI Search) Optimization: Analyzed organic search performance and content engagement to guide data-driven SEO and generative engine optimization (GEO) strategies, maximizing digital visibility</li>
+                        <li>Reader Journey & Funnel Analytics: Performed deep SQL, BigQuery, and GA4 analyses to identify conversion bottlenecks, user drop-offs, and engagement trends along the platform funnel</li>
+                        <li>Performance Reporting & Stakeholder Alignment: Built automated campaign and platform dashboards in Looker Studio to deliver actionable KPIs for management, product, and sales teams</li>
+                    </ul>
+                </div>
+
+                <!-- Adssential -->
+                <div class="job" style="break-before:page;page-break-before:always;padding-top:1.75rem;">
+                    <div class="job-header">
+                        <span class="job-company">Adssential, Croatia</span>
+                        <span class="job-date">Apr 2017 – Dec 2022</span>
+                    </div>
+                    <div class="job-title">Co-Founder & Digital Campaign Specialist</div>
+                    <p class="job-desc">End-to-end management of paid acquisition campaigns, lead generation funnels, and client growth across B2B, LinkedIn Ads, and programmatic networks.</p>
+                    <ul class="job-bullets">
+                        <li>Multi-Channel Campaign Execution: Managed full-funnel media strategy, ad setups, and real-time optimization across LinkedIn Ads, Google Ads, Meta, and programmatic networks</li>
+                        <li>Lead Generation & Client Consulting: Partnered with clients to forecast KPIs, establish budget controls, optimize lead funnels, and present performance attribution reporting</li>
+                        <li>Technical Troubleshooting: Monitored live ad delivery and pixel drops to troubleshoot pacing issues, creative delivery errors, and attribution gaps</li>
+                    </ul>
+                </div>
+
+                <!-- LightLounge -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">LightLounge, USA</span>
+                        <span class="job-date">Sep 2018 – Oct 2020</span>
+                    </div>
+                    <div class="job-title">Digital Performance Consultant & Media Manager</div>
+                    <p class="job-desc">Hands-on execution of paid ad campaigns, A/B landing page testing, and conversion funnel optimization focused on scaling lead acquisition.</p>
+                    <ul class="job-bullets">
+                        <li>Campaign Optimization & Growth: Executed continuous A/B testing on ad creatives, audience targeting, and campaign structures across Meta Ads and Google Ads to scale customer acquisition</li>
+                        <li>Budget & KPI Oversight: Managed campaign budget control and daily performance monitoring, achieving a 4x increase in lead generation conversion rates</li>
+                        <li>Ad Server & Tracking Implementation: Configured custom ad tags, conversion pixels, and UTM parameters across multi-channel campaigns to ensure clean reporting, attribution accuracy, and performance optimization</li>
+                    </ul>
+                </div>
+
+                <!-- InboundCPH -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">InboundCPH, Denmark</span>
+                        <span class="job-date">Sep 2016 – Jan 2020</span>
+                    </div>
+                    <div class="job-title">Data Analyst &amp; Tag Manager Consultant</div>
+                    <p class="job-desc" style="margin-bottom:0;">Worked with some of the largest companies in Denmark to properly tag their website, creating the best practice structure for Google Analytics accounts and defining the digital measurement model used in sales reports for upper management.</p>
+                </div>
+
+                <!-- Freelancer -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">Freelancer, remote worldwide</span>
+                        <span class="job-date">Sep 2014 – Apr 2018</span>
+                    </div>
+                    <div class="job-title">Google Analytics &amp; Analytics Specialist</div>
+                    <p class="job-desc">I worked for clients from all over the world on setting up their Google Ads and Analytics accounts.</p>
+                    <ul class="job-bullets">
+                        <li>Managed client budgets and performance strategies by executing rigorous A/B testing on ad copies and landing pages, utilizing Google's advanced tools to maximize ROI and streamline campaign setups</li>
+                        <li>Directed complex database and log queries to analyze website KPIs and competitive trends, building robust quantitative forecasts with statistical tools to generate automated performance reports</li>
+                        <li>Evaluated data trends to deliver actionable recommendations for structural process improvements, helping develop cross-functional performance policies and professional operational procedures</li>
+                        <li>Analyzing a website's key performance metrics and competitive trending</li>
+                    </ul>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Breljak – Job Hunt Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e4e8;
+            color: #1E293B;
+            padding: 3rem 1.5rem;
+        }
+
+        .page {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0F172A;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 0.35rem;
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #2563EB;
+            text-decoration: none;
+            white-space: nowrap;
+            margin-top: 0.3rem;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            padding: 0.7rem 1rem;
+            min-width: 100px;
+        }
+
+        .stat-num {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #0F172A;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748B;
+            margin-top: 0.2rem;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 6px;
+            padding: 0.55rem 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #2563EB;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #1D4ED8;
+        }
+
+        .btn-secondary {
+            background: #F1F5F9;
+            color: #475569;
+        }
+
+        .btn-secondary:hover {
+            background: #E2E8F0;
+        }
+
+        .btn-small {
+            font-size: 0.68rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+        }
+
+        .btn-danger-text {
+            background: none;
+            color: #B91C1C;
+        }
+
+        .btn-danger-text:hover {
+            text-decoration: underline;
+        }
+
+        .storage-note {
+            font-size: 0.68rem;
+            color: #94A3B8;
+            margin-top: 0.6rem;
+        }
+
+        .form-card {
+            background: #ffffff;
+            border-radius: 8px;
+            border-top: 3px solid #2563EB;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .form-card.open {
+            display: block;
+        }
+
+        .form-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.85rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .form-field.span-2 {
+            grid-column: span 2;
+        }
+
+        .form-field.span-4 {
+            grid-column: span 4;
+        }
+
+        .form-field label {
+            font-size: 0.64rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: #64748B;
+        }
+
+        .form-field input,
+        .form-field select {
+            font-family: inherit;
+            font-size: 0.78rem;
+            padding: 0.45rem 0.55rem;
+            border: 1px solid #CBD5E1;
+            border-radius: 5px;
+            color: #1E293B;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: 2px solid #2563EB;
+            outline-offset: 1px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .table-wrap {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 1080px;
+        }
+
+        thead th {
+            text-align: left;
+            font-size: 0.64rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748B;
+            background: #F8FAFC;
+            padding: 0.7rem 0.9rem;
+            border-bottom: 1px solid #E2E8F0;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 0.6rem 0.9rem;
+            font-size: 0.78rem;
+            color: #1E293B;
+            border-bottom: 1px solid #F1F5F9;
+            vertical-align: top;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #F8FAFC;
+        }
+
+        .cell-job {
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .cell-company {
+            color: #475569;
+        }
+
+        .cell-muted {
+            color: #94A3B8;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .status-completed { background: #DCFCE7; color: #15803D; }
+        .status-waiting { background: #F1F5F9; color: #475569; }
+        .status-draft { background: #FEF9C3; color: #A16207; }
+
+        .stage-rejected { background: #FEE2E2; color: #B91C1C; }
+        .stage-interview { background: #15803D; color: #ffffff; }
+        .stage-waiting { background: #F1F5F9; color: #475569; }
+        .stage-offer { background: #2563EB; color: #ffffff; }
+
+        .jd-link {
+            font-size: 0.75rem;
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        .jd-link:hover {
+            text-decoration: underline;
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .empty-state {
+            font-size: 0.8rem;
+            color: #64748B;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .edit-input,
+        .edit-select {
+            font-family: inherit;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.4rem;
+            border: 1px solid #CBD5E1;
+            border-radius: 4px;
+            width: 100%;
+            min-width: 90px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Job Hunt Tracker</h1>
+                <p class="page-subtitle">Every application, its stage, and where it stands.</p>
+            </div>
+            <a class="nav-link" href="index.html">&larr; Tailored CVs &amp; Cover Letters</a>
+        </div>
+
+        <div class="toolbar">
+            <div class="stat-row" id="stat-row"></div>
+            <button class="btn btn-primary" id="add-toggle-btn">+ Add Application</button>
+        </div>
+        <p class="storage-note">Saved in this browser only (not synced across devices or visible to Claude).</p>
+
+        <div class="form-card" id="form-card">
+            <div class="form-title" id="form-title">Add Application</div>
+            <div class="form-grid">
+                <div class="form-field span-2">
+                    <label for="f-job">Job</label>
+                    <input type="text" id="f-job" placeholder="Role title">
+                </div>
+                <div class="form-field span-2">
+                    <label for="f-company">Company</label>
+                    <input type="text" id="f-company" placeholder="Company name">
+                </div>
+                <div class="form-field">
+                    <label for="f-platform">Platform</label>
+                    <input type="text" id="f-platform" list="platform-options" placeholder="LinkedIn">
+                    <datalist id="platform-options">
+                        <option value="LinkedIn">
+                        <option value="jobs.ch">
+                        <option value="Indeed">
+                        <option value="Xing">
+                        <option value="Company website">
+                        <option value="Email">
+                    </datalist>
+                </div>
+                <div class="form-field">
+                    <label for="f-status">Status</label>
+                    <select id="f-status">
+                        <option value="Completed">Completed</option>
+                        <option value="Waiting">Waiting</option>
+                        <option value="Draft">Draft</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="f-stage">Stage</label>
+                    <select id="f-stage">
+                        <option value="Waiting answer">Waiting answer</option>
+                        <option value="Rejected">Rejected</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Offer">Offer</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="f-date">Date Sent</label>
+                    <input type="text" id="f-date" placeholder="dd/mm/yyyy">
+                </div>
+                <div class="form-field span-2">
+                    <label for="f-link">Link to Job Description</label>
+                    <input type="text" id="f-link" placeholder="https://...">
+                </div>
+                <div class="form-field span-4">
+                    <label for="f-notes">Notes</label>
+                    <input type="text" id="f-notes" placeholder="Optional">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary" id="form-save-btn">Save</button>
+                <button class="btn btn-secondary" id="form-cancel-btn">Cancel</button>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table id="tracker-table" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>Job</th>
+                        <th>Company</th>
+                        <th>Platform</th>
+                        <th>Status</th>
+                        <th>Stage</th>
+                        <th>Date Sent</th>
+                        <th>Job Description</th>
+                        <th>Notes</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tracker-body"></tbody>
+            </table>
+            <p class="empty-state" id="empty-state" style="display:none;">No applications tracked yet. Click "+ Add Application" to start.</p>
+        </div>
+    </div>
+
+    <script>
+        // Seed data used only the first time this page loads in a given
+        // browser. After that, all reads/writes go through localStorage
+        // (see STORAGE_KEY below) via the Add/Edit/Delete UI — this array
+        // is no longer touched, add/edit/delete happen entirely on-page.
+        const seedApplications = [
+            { job: "Digital Marketing Manager", company: "Cultural Care Au Pair", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "26/07/2026", link: "", notes: "" },
+            { job: "Analytics & Insights Manager", company: "Aman", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "27/07/2026", link: "", notes: "" },
+            { job: "Senior Digital & E-Commerce Manager", company: "Hemro", platform: "LinkedIn", status: "Completed", stage: "Waiting answer", dateSent: "28/07/2026", link: "", notes: "" },
+            { job: "Digital Campaign Manager", company: "Havas", platform: "LinkedIn", status: "Completed", stage: "Waiting answer", dateSent: "28/07/2026", link: "", notes: "" },
+            { job: "Senior Business & Process Analyst", company: "TUI", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "28/07/2026", link: "", notes: "" },
+            { job: "Ad Operations Consultant", company: "WPP Media", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "29/07/2026", link: "", notes: "too high salary demand" },
+            { job: "Digital Marketing Senior Analyst", company: "Salesforce", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "30/07/2026", link: "", notes: "" },
+            { job: "Digital Marketing Specialist", company: "The Living Circle", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "30/07/2026", link: "", notes: "" },
+            { job: "Performance Marketing Manager", company: "RealWear", platform: "LinkedIn", status: "Completed", stage: "Interview", dateSent: "30/07/2026", link: "", notes: "" },
+            { job: "Technical E-Commerce Manager", company: "SF-Filter Group", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "25/08/2026", link: "", notes: "" },
+            { job: "Digital Marketing Manager", company: "Pfister", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "25/08/2026", link: "", notes: "" },
+            { job: "Digital Marketing Manager (mit technischem Fokus)", company: "HOMM", platform: "jobs.ch", status: "Completed", stage: "Waiting answer", dateSent: "26/08/2026", link: "", notes: "sent by an email" },
+            { job: "Ads Specialist / Performance Marketing", company: "Lengacher & Partner", platform: "LinkedIn", status: "Completed", stage: "Waiting answer", dateSent: "26/08/2026", link: "", notes: "" },
+            { job: "Audience Engagement Manager:in", company: "CH Media", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "31/08/2026", link: "", notes: "" },
+            { job: "(Senior) Growth Marketer – E-Commerce", company: "Pflegewegweiser GmbH", platform: "LinkedIn", status: "Completed", stage: "Rejected", dateSent: "31/08/2026", link: "", notes: "" },
+            { job: "Technical Marketing Manager (50% - 100%)", company: "iRIX Software Engineering AG", platform: "LinkedIn", status: "Completed", stage: "Interview", dateSent: "02/09/2026", link: "", notes: "" },
+            { job: "Paid Media Performance Manager", company: "Emil Frey", platform: "LinkedIn", status: "Completed", stage: "Waiting answer", dateSent: "02/09/2026", link: "", notes: "" }
+        ];
+
+        const STORAGE_KEY = 'jobTracker.records.v1';
+
+        function loadRecords() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* fall through to seed */ }
+            const seeded = seedApplications.map((a, i) => ({ id: `seed-${i}`, ...a }));
+            saveRecords(seeded);
+            return seeded;
+        }
+
+        function saveRecords(records) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+            } catch (e) {
+                alert('Could not save — this browser may be blocking local storage (e.g. private/incognito mode).');
+            }
+        }
+
+        let records = loadRecords();
+        let editingId = null;
+
+        const table = document.getElementById('tracker-table');
+        const tbody = document.getElementById('tracker-body');
+        const emptyState = document.getElementById('empty-state');
+        const statRow = document.getElementById('stat-row');
+        const formCard = document.getElementById('form-card');
+        const formTitle = document.getElementById('form-title');
+        const addToggleBtn = document.getElementById('add-toggle-btn');
+        const formSaveBtn = document.getElementById('form-save-btn');
+        const formCancelBtn = document.getElementById('form-cancel-btn');
+
+        const fields = ['job', 'company', 'platform', 'status', 'stage', 'date', 'link', 'notes'];
+        function formEl(name) { return document.getElementById('f-' + name); }
+
+        function statusClass(status) {
+            if (status === "Completed") return "status-completed";
+            if (status === "Draft") return "status-draft";
+            return "status-waiting";
+        }
+
+        function stageClass(stage) {
+            if (stage === "Rejected") return "stage-rejected";
+            if (stage === "Interview") return "stage-interview";
+            if (stage === "Offer") return "stage-offer";
+            return "stage-waiting";
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str == null ? '' : String(str);
+            return div.innerHTML;
+        }
+
+        function openAddForm() {
+            editingId = null;
+            formTitle.textContent = 'Add Application';
+            formEl('job').value = '';
+            formEl('company').value = '';
+            formEl('platform').value = '';
+            formEl('status').value = 'Completed';
+            formEl('stage').value = 'Waiting answer';
+            formEl('date').value = '';
+            formEl('link').value = '';
+            formEl('notes').value = '';
+            formCard.classList.add('open');
+            formEl('job').focus();
+        }
+
+        function openEditForm(record) {
+            editingId = record.id;
+            formTitle.textContent = 'Edit Application';
+            formEl('job').value = record.job || '';
+            formEl('company').value = record.company || '';
+            formEl('platform').value = record.platform || '';
+            formEl('status').value = record.status || 'Completed';
+            formEl('stage').value = record.stage || 'Waiting answer';
+            formEl('date').value = record.dateSent || '';
+            formEl('link').value = record.link || '';
+            formEl('notes').value = record.notes || '';
+            formCard.classList.add('open');
+            formCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            formEl('job').focus();
+        }
+
+        function closeForm() {
+            editingId = null;
+            formCard.classList.remove('open');
+        }
+
+        function handleSave() {
+            const job = formEl('job').value.trim();
+            const company = formEl('company').value.trim();
+            if (!job || !company) {
+                alert('Job and Company are required.');
+                return;
+            }
+            const data = {
+                job,
+                company,
+                platform: formEl('platform').value.trim(),
+                status: formEl('status').value,
+                stage: formEl('stage').value,
+                dateSent: formEl('date').value.trim(),
+                link: formEl('link').value.trim(),
+                notes: formEl('notes').value.trim()
+            };
+
+            if (editingId) {
+                records = records.map(r => r.id === editingId ? { ...r, ...data } : r);
+            } else {
+                records = [...records, { id: `custom-${Date.now()}`, ...data }];
+            }
+            saveRecords(records);
+            closeForm();
+            render();
+        }
+
+        function handleDelete(id) {
+            const record = records.find(r => r.id === id);
+            if (!record) return;
+            if (!confirm(`Delete "${record.job}" at "${record.company}"?`)) return;
+            records = records.filter(r => r.id !== id);
+            saveRecords(records);
+            render();
+        }
+
+        addToggleBtn.addEventListener('click', () => {
+            if (formCard.classList.contains('open') && !editingId) {
+                closeForm();
+            } else {
+                openAddForm();
+            }
+        });
+        formSaveBtn.addEventListener('click', handleSave);
+        formCancelBtn.addEventListener('click', closeForm);
+
+        function render() {
+            if (records.length === 0) {
+                table.style.display = 'none';
+                emptyState.style.display = 'block';
+                statRow.innerHTML = '';
+                return;
+            }
+
+            table.style.display = 'table';
+            emptyState.style.display = 'none';
+
+            const counts = { total: records.length, interview: 0, rejected: 0, waiting: 0, offer: 0 };
+            records.forEach(a => {
+                if (a.stage === "Interview") counts.interview++;
+                else if (a.stage === "Rejected") counts.rejected++;
+                else if (a.stage === "Offer") counts.offer++;
+                else counts.waiting++;
+            });
+
+            const stats = [
+                { num: counts.total, label: "Total" },
+                { num: counts.interview, label: "Interview" },
+                { num: counts.offer, label: "Offer" },
+                { num: counts.waiting, label: "Waiting answer" },
+                { num: counts.rejected, label: "Rejected" }
+            ];
+            statRow.innerHTML = stats.map(s => `
+                <div class="stat-card">
+                    <div class="stat-num">${s.num}</div>
+                    <div class="stat-label">${s.label}</div>
+                </div>
+            `).join('');
+
+            tbody.innerHTML = records.map(a => {
+                const jobCell = a.appFolder
+                    ? `<a class="jd-link cell-job" href="job-view.html?folder=${encodeURIComponent(a.appFolder)}&title=${encodeURIComponent(a.job)}&company=${encodeURIComponent(a.company)}">${escapeHtml(a.job)}</a>`
+                    : `<span class="cell-job">${escapeHtml(a.job)}</span>`;
+                const linkCell = a.link
+                    ? `<a class="jd-link" href="${escapeHtml(a.link)}" target="_blank" rel="noopener">View posting &#8599;</a>`
+                    : `<span class="cell-muted">&mdash;</span>`;
+                return `
+                    <tr>
+                        <td>${jobCell}</td>
+                        <td class="cell-company">${escapeHtml(a.company)}</td>
+                        <td class="cell-company">${escapeHtml(a.platform)}</td>
+                        <td><span class="badge ${statusClass(a.status)}">${escapeHtml(a.status)}</span></td>
+                        <td><span class="badge ${stageClass(a.stage)}">${escapeHtml(a.stage)}</span></td>
+                        <td class="cell-company">${escapeHtml(a.dateSent) || '&mdash;'}</td>
+                        <td>${linkCell}</td>
+                        <td class="cell-company">${escapeHtml(a.notes) || '&mdash;'}</td>
+                        <td>
+                            <div class="row-actions">
+                                <button class="btn btn-secondary btn-small" data-edit="${a.id}">Edit</button>
+                                <button class="btn btn-danger-text btn-small" data-delete="${a.id}">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            tbody.querySelectorAll('[data-edit]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const record = records.find(r => r.id === btn.getAttribute('data-edit'));
+                    if (record) openEditForm(record);
+                });
+            });
+            tbody.querySelectorAll('[data-delete]').forEach(btn => {
+                btn.addEventListener('click', () => handleDelete(btn.getAttribute('data-delete')));
+            });
+        }
+
+        render();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Breljak – CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e4e8;
+            color: #1E293B;
+            padding: 2rem 1rem;
+        }
+
+        /* ── Outer wrapper ── */
+        .cv-page {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ── Two-column grid ──
+           The linear-gradient on cv-grid paints the sidebar colour across
+           all printed pages so the light-grey column never disappears on page 2. */
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 235px 1fr;
+            background: linear-gradient(to right, #F3F4F6 235px, #ffffff 235px);
+            min-height: 1050px;
+        }
+
+        /* ════════════════════════════════
+           SIDEBAR
+        ════════════════════════════════ */
+        .sidebar {
+            padding: 0 1.4rem 2rem 1.4rem;
+            color: #1E293B;
+            border-right: 1px solid #E5E7EB;
+        }
+
+        .sidebar-photo {
+            padding-top: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .sidebar-photo img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #E5E7EB;
+            display: block;
+        }
+
+        .sidebar-title {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #0F172A;
+            border-bottom: 1px solid #CBD5E1;
+            padding-bottom: 0.28rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .sidebar-body {
+            font-size: 0.68rem;
+            line-height: 1.55;
+            color: #475569;
+        }
+
+        .sidebar-body .cat {
+            font-weight: 700;
+            color: #0F172A;
+            display: block;
+            margin-bottom: 0.05rem;
+        }
+
+        .sidebar-body .item {
+            margin-bottom: 0.6rem;
+        }
+
+        .sidebar-body .item:last-child { margin-bottom: 0; }
+
+        .edu-school {
+            font-weight: 700;
+            color: #0F172A;
+            text-transform: uppercase;
+            font-size: 0.62rem;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.08rem;
+        }
+
+        .edu-degree {
+            font-size: 0.68rem;
+            color: #475569;
+            line-height: 1.4;
+            margin-bottom: 0.65rem;
+        }
+
+        /* ════════════════════════════════
+           MAIN CONTENT
+        ════════════════════════════════ */
+        .main {
+            background: #ffffff;
+            padding: 1.75rem 2rem 2rem 2rem;
+        }
+
+        /* Header */
+        .cv-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0F172A;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .cv-subtitle {
+            font-size: 0.85rem;
+            color: #475569;
+            font-weight: 400;
+            margin-top: 0.2rem;
+        }
+
+        .cv-contact {
+            font-size: 0.7rem;
+            color: #64748B;
+            margin-top: 0.4rem;
+            line-height: 1.6;
+        }
+
+        .cv-contact a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        .cv-contact .sep { color: #CBD5E1; margin: 0 0.3rem; }
+
+        /* Section titles */
+        .section-title {
+            font-size: 0.66rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #0F172A;
+            border-bottom: 2px solid #2563EB;
+            padding-bottom: 0.28rem;
+            margin-top: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Experience entries */
+        .job {
+            margin-bottom: 1.4rem;
+        }
+
+        .job:last-child { margin-bottom: 0; }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .job-company {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .job-date {
+            font-size: 0.68rem;
+            color: #64748B;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .job-title {
+            font-size: 0.72rem;
+            color: #2563EB;
+            font-weight: 600;
+            margin-top: 0.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .job-desc {
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.6;
+            margin-bottom: 0.32rem;
+        }
+
+        .job-bullets {
+            list-style: disc;
+            margin-left: 1.1rem;
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .job-bullets li {
+            margin-bottom: 0.22rem;
+        }
+
+        .job-bullets li:last-child { margin-bottom: 0; }
+
+        .job-bullets .bullet-label {
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        /* About Me */
+        .about-text {
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.65;
+        }
+
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: #2563EB;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* ════════════════════════════════
+           PRINT
+        ════════════════════════════════ */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* Painting the sidebar colour on body (the canvas) instead of
+               .cv-grid means it fills every physical page down to the
+               bottom edge, even past where the last line of content ends. */
+            body {
+                background: linear-gradient(to right, #F3F4F6 235px, #ffffff 235px) !important;
+                padding: 0 !important;
+            }
+
+            .cv-page {
+                max-width: 100% !important;
+            }
+
+            .cv-grid {
+                min-height: 100vh;
+            }
+
+            .print-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">Save as PDF / Print</button>
+
+<div class="cv-page">
+    <div class="cv-grid">
+
+        <!-- ══════════════════════════
+             SIDEBAR
+        ══════════════════════════ -->
+        <aside class="sidebar">
+
+            <div class="sidebar-photo">
+                <img src="./profile_photo.png"
+                     onerror="this.onerror=null;this.src='https://placehold.co/220x220/1e4a6e/ffffff?text=MB';"
+                     alt="Mario Breljak" />
+            </div>
+
+            <!-- TOOLS -->
+            <div class="sidebar-title">Tools</div>
+
+            <div class="sidebar-body">
+                <div class="item">
+                    <span class="cat">Digital Analytics:</span>
+                    GA4, Google Cloud - BigQuery, GTM, Looker Studio, A/B &amp; Multivariate Testing, Piano Analytics, Amplitude
+                </div>
+                <div class="item">
+                    <span class="cat">Development:</span>
+                    Custom URL builder w/HTML &amp; CSS, JS, SQL, Python scripts
+                </div>
+                <div class="item">
+                    <span class="cat">Web Dev tech stack:</span>
+                    Shopify, WordPress, Elementor, Yoast, Kadence, Cpanel, FileZilla, GoDaddy
+                </div>
+                <div class="item">
+                    <span class="cat">Project Management:</span>
+                    Jira, Basecamp, Asana, Monday, Trello
+                </div>
+                <div class="item">
+                    <span class="cat">Newsletter:</span>
+                    Mailchimp, ActiveCampaign, SendinBlue, Hubspot
+                </div>
+                <div class="item">
+                    <span class="cat">Landing Pages:</span>
+                    Unbounce, Leadpages, Instapage, Clickfunnels
+                </div>
+            </div>
+
+            <!-- EDUCATION -->
+            <div class="sidebar-title">Education</div>
+
+            <div>
+                <span class="edu-school">University of Zagreb</span>
+                <div class="edu-degree">Master of Science,<br>Information Technology</div>
+
+                <span class="edu-school">Gymnasium Varazdin</span>
+                <div class="edu-degree" style="margin-bottom:0;">Natural Science and Mathematics</div>
+            </div>
+
+        </aside>
+
+        <!-- ══════════════════════════
+             MAIN CONTENT
+        ══════════════════════════ -->
+        <main class="main">
+
+            <!-- Header -->
+            <div style="margin-bottom:0.6rem;">
+                <h1 class="cv-name">Mario Breljak</h1>
+                <p class="cv-subtitle">Master of Science, Information Technology</p>
+                <p class="cv-contact">
+                    Luzern, Switzerland
+                    <span class="sep">|</span>
+                    +41 76 804 63 17
+                    <span class="sep">|</span>
+                    <a href="https://www.linkedin.com/in/mario-breljak-34322182/">LinkedIn Profile</a>
+                    <span class="sep">|</span>
+                    mario.breljak@gmail.com
+                </p>
+            </div>
+
+            <!-- ABOUT ME -->
+            <section>
+                <h3 class="section-title">About Me</h3>
+                <p class="about-text">
+                    Results-driven Data Analyst and Digital Platforms Specialist with an MSc in IT, over a decade of international experience, and professional German (B2) proficiency. Expert in taking full ownership of tracking infrastructure—from clean event taxonomies to independent Web/Server-Side GTM pipelines and optimized BigQuery star-schema models. An AI-fluent professional dedicated to enforcing data quality via automated QA workflows and translating complex cloud data pipelines into actionable growth narratives for executive leadership.
+                </p>
+            </section>
+
+            <!-- EXPERIENCE -->
+            <section>
+                <h3 class="section-title">Experience</h3>
+
+                <!-- Swiss Casinos -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">Swiss Casinos, Switzerland</span>
+                        <span class="job-date">Feb 2026 – Present</span>
+                    </div>
+                    <div class="job-title">Digital Performance Specialist</div>
+                    <p class="job-desc">Architect and manage the end-to-end digital measurement strategy and technical tracking architecture, establishing robust cloud pipelines and automated data quality frameworks across all platforms.</p>
+                    <ul class="job-bullets">
+                        <li>Independently deployed Server-Side Tracking (SST) via GTM to circumvent browser restrictions, significantly enhancing data quality and collection reliability</li>
+                        <li>Leveraged Python-driven scripts to orchestrate automated web tracking tests and anomaly alerts, ensuring custom data layers and tags remained safely configured during site deployments</li>
+                        <li>Engineered specialized tech API integrations for precise event triggering and streamlined BigQuery data flows while establishing strict data-layer standards</li>
+                    </ul>
+                </div>
+
+                <!-- 20 Minuten -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">20 Minuten, Switzerland</span>
+                        <span class="job-date">Jan 2023 – Feb 2026</span>
+                    </div>
+                    <div class="job-title">Data Analyst &amp; Tracking Specialist</div>
+                    <p class="job-desc">Led the strategic design and governance of the entire data architecture for 20 Minuten platforms, enabling real-time behavioral insights and executive reporting through Looker Studio using BigQuery, GA4 and GTM.</p>
+                    <ul class="job-bullets">
+                        <li>Designed and implemented a comprehensive e-commerce measurement model for 20 Minuten, successfully transforming the high-traffic media platform into a functional e-commerce ecosystem with real-time tracking</li>
+                        <li>Managed massive data pipelines and high-volume data transformation workflows within BigQuery to support real-time behavioral insights across web, Android, and iOS platforms</li>
+                        <li>Optimized complex, raw data models by architecting clean star-schema design principles, drastically increasing query performance and reducing processing costs</li>
+                        <li>Utilized advanced SQL to build reporting pipelines and automated Looker Studio dashboards to analyze customer journeys, conversion funnels, and platform lifecycle engagement metrics</li>
+                        <li>Writing SQL queries in BigQuery to analyze engagement, performance, automated dashboards for management and editorial, for data-driven content recommendations</li>
+                    </ul>
+                </div>
+
+                <!-- Adssential -->
+                <div class="job" style="break-before:page;page-break-before:always;padding-top:1.75rem;">
+                    <div class="job-header">
+                        <span class="job-company">Adssential, Croatia</span>
+                        <span class="job-date">Apr 2017 – Dec 2022</span>
+                    </div>
+                    <div class="job-title">Co-Founder, Data Analytics Specialist &amp; WP Developer</div>
+                    <p class="job-desc">As a co-founder of Adssential, I was in charge of all website projects, creating digital measurement models for clients and improving conversion rates for e-commerce and lead-gen websites.</p>
+                    <ul class="job-bullets">
+                        <li>Designing, building, and executing split testing, multivariate testing, and other testing approaches for websites, newsletters, and landing pages</li>
+                        <li>Implementing digital measurement models and tracking codes using Google Tag Manager, improving digital measurement and best practice analytics setups based on collected data</li>
+                        <li>Using digital analytics tools (GA, Data Studio - Looker) to present data to clients</li>
+                        <li>Conducted WordPress training and consultancy for clients</li>
+                    </ul>
+                </div>
+
+                <!-- LightLounge -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">LightLounge, USA</span>
+                        <span class="job-date">Sep 2018 – Oct 2020</span>
+                    </div>
+                    <div class="job-title">Digital Consultant / WordPress / Shopify Developer</div>
+                    <p class="job-desc">I was in charge of customer journeys, creating digital measurement guidelines and education as well as informing the CEO and COO on indicators and performance results.</p>
+                    <ul class="job-bullets">
+                        <li>Creating buyer personas for LightLounge services, producing daily, weekly, and monthly reports in Data Studio and custom reports in Google Analytics and Data Studio for upper management</li>
+                        <li>Creating standard operating procedures for WordPress, Shopify, Google Ads and Facebook, while creating and executing the strategies to grow monthly recurring customers from 0 to 200 in the first couple of months</li>
+                        <li>Increasing the lead-gen conversion rate from 2% to 8%, with a change of strategy in Google Ads and landing page optimization</li>
+                        <li>Creating WordPress website from scratch for both lead-gen and e-commerce capabilities</li>
+                    </ul>
+                </div>
+
+                <!-- InboundCPH -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">InboundCPH, Denmark</span>
+                        <span class="job-date">Sep 2016 – Jan 2020</span>
+                    </div>
+                    <div class="job-title">Data Analyst &amp; Tag Manager Consultant</div>
+                    <p class="job-desc" style="margin-bottom:0;">Worked with some of the largest companies in Denmark to properly tag their website, creating the best practice structure for Google Analytics accounts and defining the digital measurement model used in sales reports for upper management.</p>
+                </div>
+
+                <!-- Freelancer -->
+                <div class="job">
+                    <div class="job-header">
+                        <span class="job-company">Freelancer, remote worldwide</span>
+                        <span class="job-date">Sep 2014 – Apr 2018</span>
+                    </div>
+                    <div class="job-title">Google Analytics &amp; Analytics Specialist</div>
+                    <p class="job-desc">I worked for clients from all over the world on setting up their Google Ads and Analytics accounts.</p>
+                    <ul class="job-bullets">
+                        <li>Managed client budgets and performance strategies by executing rigorous A/B testing on ad copies and landing pages, utilizing Google's advanced tools to maximize ROI and streamline campaign setups</li>
+                        <li>Directed complex database and log queries to analyze website KPIs and competitive trends, building robust quantitative forecasts with statistical tools to generate automated performance reports</li>
+                        <li>Evaluated data trends to deliver actionable recommendations for structural process improvements, helping develop cross-functional performance policies and professional operational procedures</li>
+                        <li>Analyzing a website's key performance metrics and competitive trending</li>
+                    </ul>
+                </div>
+
+            </section>
+        </main>
+
+    </div>
+</div>
+
+</body>
+</html>
