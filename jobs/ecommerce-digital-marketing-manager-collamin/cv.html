@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Breljak – Lebenslauf</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #e2e4e8;
+            color: #1E293B;
+            padding: 2rem 1rem;
+        }
+
+        /* ── Outer wrapper ── */
+        .cv-page {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ── Two-column grid ──
+           The linear-gradient on cv-grid paints the sidebar colour across
+           all printed pages so the light-grey column never disappears on page 2. */
+        .cv-grid {
+            display: grid;
+            grid-template-columns: 235px 1fr;
+            background: linear-gradient(to right, #F3F4F6 235px, #ffffff 235px);
+            min-height: 1050px;
+        }
+
+        /* ════════════════════════════════
+           SIDEBAR
+        ════════════════════════════════ */
+        .sidebar {
+            padding: 0 1.4rem 2rem 1.4rem;
+            color: #1E293B;
+            border-right: 1px solid #E5E7EB;
+        }
+
+        .sidebar-photo {
+            padding-top: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .sidebar-photo img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #E5E7EB;
+            display: block;
+        }
+
+        .sidebar-title {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #0F172A;
+            border-bottom: 1px solid #CBD5E1;
+            padding-bottom: 0.28rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .sidebar-body {
+            font-size: 0.68rem;
+            line-height: 1.55;
+            color: #475569;
+        }
+
+        .sidebar-body .cat {
+            font-weight: 700;
+            color: #0F172A;
+            display: block;
+            margin-bottom: 0.05rem;
+        }
+
+        .sidebar-body .item {
+            margin-bottom: 0.6rem;
+        }
+
+        .sidebar-body .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .edu-school {
+            font-weight: 700;
+            color: #0F172A;
+            text-transform: uppercase;
+            font-size: 0.62rem;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.08rem;
+        }
+
+        .edu-degree {
+            font-size: 0.68rem;
+            color: #475569;
+            line-height: 1.4;
+            margin-bottom: 0.65rem;
+        }
+
+        /* ════════════════════════════════
+           MAIN CONTENT
+        ════════════════════════════════ */
+        .main {
+            background: #ffffff;
+            padding: 1.75rem 2rem 2rem 2rem;
+        }
+
+        /* Header */
+        .cv-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0F172A;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .cv-subtitle {
+            font-size: 0.85rem;
+            color: #475569;
+            font-weight: 400;
+            margin-top: 0.2rem;
+        }
+
+        .cv-contact {
+            font-size: 0.7rem;
+            color: #64748B;
+            margin-top: 0.4rem;
+            line-height: 1.6;
+        }
+
+        .cv-contact a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        .cv-contact .sep {
+            color: #CBD5E1;
+            margin: 0 0.3rem;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 0.66rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #0F172A;
+            border-bottom: 2px solid #2563EB;
+            padding-bottom: 0.28rem;
+            margin-top: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Experience entries */
+        .job {
+            margin-bottom: 1.1rem;
+        }
+
+        .job:last-child {
+            margin-bottom: 0;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .job-company {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .job-date {
+            font-size: 0.68rem;
+            color: #64748B;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .job-title {
+            font-size: 0.72rem;
+            color: #2563EB;
+            font-weight: 600;
+            margin-top: 0.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .job-desc {
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.6;
+            margin-bottom: 0.32rem;
+        }
+
+        .job-bullets {
+            list-style: disc;
+            margin-left: 1.1rem;
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        .job-bullets li {
+            margin-bottom: 0.22rem;
+        }
+
+        .job-bullets li:last-child {
+            margin-bottom: 0;
+        }
+
+        .job-bullets .bullet-label {
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        /* About Me */
+        .about-text {
+            font-size: 0.72rem;
+            color: #1E293B;
+            line-height: 1.65;
+        }
+
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: #2563EB;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* ════════════════════════════════
+           PRINT
+        ════════════════════════════════ */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* Painting the sidebar colour on body (the canvas) instead of
+               .cv-grid means it fills every physical page down to the
+               bottom edge, even past where the last line of content ends. */
+            body {
+                background: linear-gradient(to right, #F3F4F6 235px, #ffffff 235px) !important;
+                padding: 0 !important;
+            }
+
+            .cv-page {
+                max-width: 100% !important;
+            }
+
+            .cv-grid {
+                min-height: 100vh;
+            }
+
+            .print-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="print-btn" onclick="window.print()">Als PDF speichern / Drucken</button>
+
+    <div class="cv-page">
+        <div class="cv-grid">
+
+            <!-- ══════════════════════════
+             SIDEBAR
+        ══════════════════════════ -->
+            <aside class="sidebar">
+
+                <div class="sidebar-photo">
+                    <img src="../../profile_photo.png"
+                        onerror="this.onerror=null;this.src='https://placehold.co/220x220/1e4a6e/ffffff?text=MB';"
+                        alt="Mario Breljak" />
+                </div>
+
+                <!-- TOOLS -->
+                <div class="sidebar-title">Kompetenzen</div>
+
+                <div class="sidebar-body">
+                    <div class="item">
+                        <span class="cat">E-Commerce & Shop-Plattformen:</span>
+                        WordPress, WooCommerce, Shopify, Elementor, Customer-Journey-Optimierung
+                    </div>
+                    <div class="item">
+                        <span class="cat">Digital & Performance-Marketing:</span>
+                        Google Ads, Paid Social, SEO, Landingpage- & Produktseiten-Optimierung, Budgetverantwortung
+                    </div>
+                    <div class="item">
+                        <span class="cat">CRM & Marketing-Automation:</span>
+                        Newsletter- & Lifecycle-Kampagnen (Mailchimp, ActiveCampaign, HubSpot), Segmentierung, Kundenaktivierung
+                    </div>
+                    <div class="item">
+                        <span class="cat">Analytics & Reporting:</span>
+                        Google Analytics (GA4), Traffic-, Conversion- & ROI-Analyse, Looker Studio, Dashboards
+                    </div>
+                    <div class="item">
+                        <span class="cat">KI & Projektsteuerung:</span>
+                        KI-gestützte Content- & Workflow-Automatisierung, Agentur- & Partnerkoordination, Deutsch (verhandlungssicher), Englisch (verhandlungssicher)
+                    </div>
+                </div>
+
+                <!-- EDUCATION -->
+                <div class="sidebar-title">Ausbildung</div>
+
+                <div>
+                    <span class="edu-school">University of Zagreb</span>
+                    <div class="edu-degree">Master of Science,<br>Informationstechnologie</div>
+
+                    <span class="edu-school">Gymnasium Varazdin</span>
+                    <div class="edu-degree" style="margin-bottom:0;">Naturwissenschaften und Mathematik</div>
+                </div>
+
+            </aside>
+
+            <!-- ══════════════════════════
+             MAIN CONTENT
+        ══════════════════════════ -->
+            <main class="main">
+
+                <!-- Header -->
+                <div style="margin-bottom:0.6rem;">
+                    <h1 class="cv-name">Mario Breljak</h1>
+                    <p class="cv-subtitle">E-COMMERCE & DIGITAL MARKETING MANAGER</p>
+                    <p class="cv-contact">
+                        Luzern, Schweiz
+                        <span class="sep">|</span>
+                        +41 76 804 63 17
+                        <span class="sep">|</span>
+                        <a href="https://www.linkedin.com/in/mario-breljak-34322182/">LinkedIn-Profil</a>
+                        <span class="sep">|</span>
+                        mario.breljak@gmail.com
+                    </p>
+                </div>
+
+                <!-- ABOUT ME -->
+                <section>
+                    <h3 class="section-title">Über mich</h3>
+                    <p class="about-text">
+                        Datengetriebener E-Commerce & Digital Marketing Manager mit einem Master in IT, über zehn Jahren Erfahrung in der Weiterentwicklung von Online-Shops (WordPress, WooCommerce, Shopify) und der digitalen Customer Journey. Erfahren in der Planung und Optimierung von Performance-Marketing-Kampagnen (Google Ads, Paid Social) mit direkter Budgetverantwortung sowie in SEO und der laufenden Optimierung von Website, Landingpages und Produktseiten. Praxis im Aufbau automatisierter Newsletter- und Lifecycle-Kampagnen sowie in der Analyse von Traffic, Conversion und ROI zur Ableitung konkreter Massnahmen. Nutzt KI-Tools aktiv für Workflow-Automatisierung und Analyse. Sehr gute Deutsch- und Englischkenntnisse, analytisches Denken kombiniert mit Hands-on-Mentalität.
+                    </p>
+                </section>
+
+                <!-- EXPERIENCE -->
+                <section>
+                    <h3 class="section-title">Berufserfahrung</h3>
+
+                    <!-- Swiss Casinos -->
+                    <div class="job">
+                        <div class="job-header">
+                            <span class="job-company">Swiss Casinos, Schweiz</span>
+                            <span class="job-date">Feb. 2026 – heute</span>
+                        </div>
+                        <div class="job-title">Digital Performance Specialist</div>
+                        <p class="job-desc">Verantwortlich für die Weiterentwicklung digitaler Plattformen sowie die Planung und Optimierung von Performance-Marketing-Kampagnen mit Budgetverantwortung.</p>
+                        <ul class="job-bullets">
+                            <li><span class="bullet-label">E-Commerce & Plattform-Optimierung:</span> Weiterentwicklung digitaler Plattformen und der Customer Journey zur Steigerung von Conversion und Umsatz</li>
+                            <li><span class="bullet-label">Performance-Marketing:</span> Planung, Umsetzung und Optimierung von Kampagnen (Google Ads, Paid Social) mit direkter Budgetverantwortung</li>
+                            <li><span class="bullet-label">SEO & Analytics:</span> Technische SEO-Optimierung sowie Analyse von Traffic, Conversion und Kampagnenperformance zur Ableitung konkreter Massnahmen</li>
+                            <li><span class="bullet-label">KI-gestützte Automatisierung:</span> Einsatz KI-gestützter Tools zur Automatisierung von Content- und Workflow-Prozessen</li>
+                        </ul>
+                    </div>
+
+                    <!-- 20 Minuten -->
+                    <div class="job">
+                        <div class="job-header">
+                            <span class="job-company">20 Minuten, Schweiz</span>
+                            <span class="job-date">Jan. 2023 – Feb. 2026</span>
+                        </div>
+                        <div class="job-title">Data Analyst &amp; Tracking Specialist</div>
+                        <p class="job-desc">Analyse von Content- und Kampagnenperformance zur Ableitung datenbasierter Optimierungsempfehlungen.</p>
+                        <ul class="job-bullets">
+                            <li><span class="bullet-label">Traffic- & Conversion-Analyse:</span> Analyse von Nutzerverhalten und Content-Engagement zur Ableitung datenbasierter SEO- und Optimierungsstrategien</li>
+                            <li><span class="bullet-label">Reporting & Dashboards:</span> Aufbau automatisierter Dashboards in Looker Studio zur transparenten Steuerung von Website- und Kampagnen-KPIs</li>
+                            <li><span class="bullet-label">Deep-Dive-SQL-Analysen:</span> Durchführung fortgeschrittener SQL-Abfragen (BigQuery) zur Identifikation von Optimierungspotenzialen entlang der Customer Journey</li>
+                        </ul>
+                    </div>
+
+                    <!-- Adssential -->
+                    <div class="job" style="break-before:page;page-break-before:always;padding-top:1.75rem;">
+                        <div class="job-header">
+                            <span class="job-company">Adssential, Kroatien</span>
+                            <span class="job-date">Apr. 2017 – Dez. 2022</span>
+                        </div>
+                        <div class="job-title">Mitgründer, E-Commerce & Digital Marketing Consultant</div>
+                        <p class="job-desc">Als Mitgründer verantwortlich für Online-Shops (WordPress, WooCommerce, Shopify), Performance-Marketing-Kampagnen sowie Newsletter- und CRM-Automationen für Kunden.</p>
+                        <ul class="job-bullets">
+                            <li><span class="bullet-label">Online-Shop-Betreuung:</span> Aufbau, Konfiguration und laufende Optimierung von WordPress-, WooCommerce- und Shopify-Shops für Kunden</li>
+                            <li><span class="bullet-label">Performance-Marketing & SEO:</span> Steuerung von Google-Ads-Kampagnen mit Budgetverantwortung sowie technische SEO-Optimierung</li>
+                            <li><span class="bullet-label">CRM & Newsletter-Automation:</span> Aufbau automatisierter Newsletter- und Lifecycle-Kampagnen (Mailchimp, ActiveCampaign, HubSpot) zur Kundenaktivierung und -bindung</li>
+                            <li><span class="bullet-label">Agentur- & Partnerkoordination:</span> Zusammenarbeit mit externen Partnern und Lieferanten bei digitalen Kundenprojekten</li>
+                        </ul>
+                    </div>
+
+                    <!-- LightLounge -->
+                    <div class="job">
+                        <div class="job-header">
+                            <span class="job-company">LightLounge, USA</span>
+                            <span class="job-date">Sep. 2018 – Okt. 2020</span>
+                        </div>
+                        <div class="job-title">Digital Consultant / WordPress / Shopify Developer</div>
+                        <ul class="job-bullets">
+                            <li><span class="bullet-label">Shopify- & WordPress-Entwicklung:</span> Konzeption, Aufbau und Pflege individueller Web-Umgebungen inklusive Theme-Anpassungen und App-Integrationen</li>
+                            <li><span class="bullet-label">Conversion-Optimierung:</span> Steigerung der Conversion-Rate von 2 % auf 8 % durch strategische Paid-Kampagnenoptimierung und laufende UX-Verbesserungen</li>
+                            <li><span class="bullet-label">Reporting:</span> Erstellung wöchentlicher und monatlicher Performance-Reports in Google Analytics und Looker Studio für das obere Management</li>
+                        </ul>
+                    </div>
+
+                    <!-- InboundCPH -->
+                    <div class="job">
+                        <div class="job-header">
+                            <span class="job-company">InboundCPH, Dänemark</span>
+                            <span class="job-date">Sep. 2016 – Jan. 2020</span>
+                        </div>
+                        <div class="job-title">Data Analyst &amp; Tag Manager Consultant</div>
+                        <p class="job-desc" style="margin-bottom:0;">Zusammenarbeit mit einigen der größten Unternehmen Dänemarks bei der korrekten technischen Auszeichnung ihrer Websites.</p>
+                    </div>
+
+                    <!-- Freelancer -->
+                    <div class="job">
+                        <div class="job-header">
+                            <span class="job-company">Freelancer, weltweit remote</span>
+                            <span class="job-date">Sep. 2014 – Apr. 2018</span>
+                        </div>
+                        <div class="job-title">Google Analytics &amp; Analytics Specialist</div>
+                        <ul class="job-bullets">
+                            <li><span class="bullet-label">Budget- & Performance-Strategie:</span> Verantwortlich für Kundenbudgets und Performance-Strategien durch konsequente A/B-Tests von Anzeigentexten und Landingpages</li>
+                            <li><span class="bullet-label">Daten- & Log-Analyse:</span> Durchführung komplexer Datenbank- und Log-Abfragen zur Analyse von Website-KPIs und Wettbewerbstrends</li>
+                        </ul>
+                    </div>
+
+                </section>
+            </main>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

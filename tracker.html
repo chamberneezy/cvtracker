@@ -7,8 +7,22 @@
     <title>Mario Breljak – Job Hunt Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --paper: #EFE8D6;
+            --paper-raised: #E6DCC0;
+            --line: #D3C6A0;
+            --line-strong: #B8A878;
+            --ink: #1C2430;
+            --ink-soft: #5B6270;
+            --ink-faint: #9AA0AD;
+            --red: #A63B2E;
+            --green: #2E5C3E;
+            --amber: #7C5D1F;
+            --blue: #2C3A66;
+        }
+
         *,
         *::before,
         *::after {
@@ -18,49 +32,54 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #e2e4e8;
-            color: #1E293B;
-            padding: 3rem 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--paper);
+            color: var(--ink);
+            padding: 3.5rem 1.5rem;
+            line-height: 1.55;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
         }
 
         .page {
-            max-width: 1280px;
+            max-width: 1180px;
             margin: 0 auto;
         }
 
         .page-header {
             display: flex;
-            align-items: flex-start;
+            align-items: flex-end;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            gap: 1rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 2px solid var(--ink);
         }
 
         .page-title {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: #0F172A;
-            letter-spacing: -0.02em;
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 2.1rem;
+            letter-spacing: -0.01em;
+            line-height: 1.05;
         }
 
         .page-subtitle {
-            font-size: 0.85rem;
-            color: #475569;
-            margin-top: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            margin-top: 0.55rem;
         }
 
-        .nav-link {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #2563EB;
+        .back-link {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
             text-decoration: none;
-            white-space: nowrap;
-            margin-top: 0.3rem;
         }
 
-        .nav-link:hover {
+        .back-link:hover {
+            color: var(--ink);
             text-decoration: underline;
         }
 
@@ -69,267 +88,242 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
-        .stat-row {
+        .tally {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.7rem;
+            border: 1px solid var(--line-strong);
         }
 
-        .stat-card {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-            padding: 0.7rem 1rem;
-            min-width: 100px;
+        .tally-item {
+            padding: 0.55rem 1rem;
+            border-left: 1px solid var(--line-strong);
+            text-align: center;
         }
 
-        .stat-num {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: #0F172A;
+        .tally-item:first-child {
+            border-left: none;
+        }
+
+        .tally-num {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 1.2rem;
             line-height: 1.1;
         }
 
-        .stat-label {
-            font-size: 0.62rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #64748B;
-            margin-top: 0.2rem;
+        .tally-label {
+            font-size: 0.6rem;
+            color: var(--ink-soft);
+            margin-top: 3px;
         }
 
-        .btn {
-            font-family: inherit;
-            font-size: 0.78rem;
+        .ink-btn {
+            display: inline-block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.74rem;
             font-weight: 600;
-            border-radius: 6px;
-            padding: 0.55rem 1rem;
-            border: none;
+            letter-spacing: 0.02em;
+            color: var(--ink);
+            background: var(--paper);
+            border: 1px solid var(--ink);
+            text-decoration: none;
+            padding: 0.5rem 0.9rem;
+            white-space: nowrap;
             cursor: pointer;
+            transition: background 0.12s ease, color 0.12s ease;
         }
 
-        .btn-primary {
-            background: #2563EB;
-            color: #ffffff;
+        .ink-btn:hover,
+        .ink-btn:focus-visible {
+            background: var(--ink);
+            color: var(--paper);
         }
 
-        .btn-primary:hover {
-            background: #1D4ED8;
+        .ink-btn:focus-visible {
+            outline: 2px solid var(--ink);
+            outline-offset: 2px;
         }
 
-        .btn-secondary {
-            background: #F1F5F9;
-            color: #475569;
-        }
-
-        .btn-secondary:hover {
-            background: #E2E8F0;
-        }
-
-        .btn-small {
-            font-size: 0.68rem;
-            padding: 0.3rem 0.6rem;
-            border-radius: 5px;
-        }
-
-        .btn-danger-text {
+        .btn-plain {
             background: none;
-            color: #B91C1C;
+            border: none;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.74rem;
+            color: var(--ink-soft);
+            cursor: pointer;
+            padding: 0.3rem 0.1rem;
         }
 
-        .btn-danger-text:hover {
+        .btn-plain:hover,
+        .btn-plain:focus-visible {
+            color: var(--ink);
             text-decoration: underline;
         }
 
-        .storage-note {
-            font-size: 0.68rem;
-            color: #94A3B8;
-            margin-top: 0.6rem;
+        .btn-plain.danger {
+            color: var(--red);
         }
 
-        .form-card {
-            background: #ffffff;
-            border-radius: 8px;
-            border-top: 3px solid #2563EB;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-            padding: 1.1rem 1.2rem;
-            margin-bottom: 1.5rem;
+        .btn-plain.danger:hover {
+            color: var(--red);
+        }
+
+        .storage-note {
+            font-size: 0.7rem;
+            color: var(--ink-faint);
+            margin-top: 0.75rem;
+        }
+
+        .slip {
+            border: 1px solid var(--ink);
+            padding: 1.25rem 1.25rem 1rem;
+            margin: 1.5rem 0;
             display: none;
         }
 
-        .form-card.open {
+        .slip.open {
             display: block;
         }
 
-        .form-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #0F172A;
-            margin-bottom: 0.85rem;
+        .slip-title {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-bottom: 1.1rem;
         }
 
-        .form-grid {
+        .slip-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 0.75rem;
+            gap: 1rem 1.25rem;
         }
 
-        .form-field {
+        .field {
             display: flex;
             flex-direction: column;
-            gap: 0.3rem;
+            gap: 0.35rem;
         }
 
-        .form-field.span-2 {
-            grid-column: span 2;
+        .field.span-2 { grid-column: span 2; }
+        .field.span-4 { grid-column: span 4; }
+
+        .field label {
+            font-size: 0.66rem;
+            color: var(--ink-soft);
         }
 
-        .form-field.span-4 {
-            grid-column: span 4;
+        .field input,
+        .field select {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem;
+            color: var(--ink);
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--line-strong);
+            border-radius: 0;
+            padding: 0.35rem 0.1rem;
         }
 
-        .form-field label {
-            font-size: 0.64rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: #64748B;
+        .field input:focus,
+        .field select:focus {
+            outline: none;
+            border-bottom: 2px solid var(--ink);
         }
 
-        .form-field input,
-        .form-field select {
-            font-family: inherit;
-            font-size: 0.78rem;
-            padding: 0.45rem 0.55rem;
-            border: 1px solid #CBD5E1;
-            border-radius: 5px;
-            color: #1E293B;
-        }
-
-        .form-field input:focus,
-        .form-field select:focus {
-            outline: 2px solid #2563EB;
-            outline-offset: 1px;
-        }
-
-        .form-actions {
+        .slip-actions {
             display: flex;
-            gap: 0.6rem;
-            margin-top: 1rem;
+            align-items: center;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
         }
 
         .table-wrap {
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
             overflow-x: auto;
+            margin-top: 1rem;
         }
 
         table {
             border-collapse: collapse;
             width: 100%;
-            min-width: 1080px;
+            min-width: 980px;
+            font-family: 'IBM Plex Mono', monospace;
         }
 
         thead th {
             text-align: left;
-            font-size: 0.64rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #64748B;
-            background: #F8FAFC;
-            padding: 0.7rem 0.9rem;
-            border-bottom: 1px solid #E2E8F0;
+            font-size: 0.66rem;
+            font-weight: 500;
+            color: var(--ink-faint);
+            padding: 0.5rem 0.6rem;
+            border-bottom: 1px solid var(--line-strong);
             white-space: nowrap;
         }
 
         tbody td {
-            padding: 0.6rem 0.9rem;
-            font-size: 0.78rem;
-            color: #1E293B;
-            border-bottom: 1px solid #F1F5F9;
+            padding: 0.7rem 0.6rem;
+            font-size: 0.8rem;
+            border-bottom: 1px solid var(--line);
             vertical-align: top;
         }
 
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
         tbody tr:hover {
-            background: #F8FAFC;
+            background: var(--paper-raised);
         }
 
         .cell-job {
             font-weight: 600;
-            color: #0F172A;
-        }
-
-        .cell-company {
-            color: #475569;
         }
 
         .cell-muted {
-            color: #94A3B8;
+            color: var(--ink-soft);
         }
 
-        .badge {
+        .cell-faint {
+            color: var(--ink-faint);
+        }
+
+        .stamp {
             display: inline-block;
             font-size: 0.62rem;
             font-weight: 700;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            letter-spacing: 0.03em;
-            padding: 0.2rem 0.55rem;
-            border-radius: 999px;
-            white-space: nowrap;
+            padding: 0.15rem 0.45rem;
+            border: 1px solid currentColor;
         }
 
-        .status-completed { background: #DCFCE7; color: #15803D; }
-        .status-waiting { background: #F1F5F9; color: #475569; }
-        .status-draft { background: #FEF9C3; color: #A16207; }
-
-        .stage-rejected { background: #FEE2E2; color: #B91C1C; }
-        .stage-interview { background: #15803D; color: #ffffff; }
-        .stage-waiting { background: #F1F5F9; color: #475569; }
-        .stage-offer { background: #2563EB; color: #ffffff; }
+        .stamp-red { color: var(--red); }
+        .stamp-green { color: var(--green); }
+        .stamp-amber { color: var(--amber); }
+        .stamp-blue { color: var(--blue); }
 
         .jd-link {
-            font-size: 0.75rem;
-            color: #2563EB;
+            font-size: 0.78rem;
+            color: var(--ink-soft);
             text-decoration: none;
         }
 
         .jd-link:hover {
+            color: var(--ink);
             text-decoration: underline;
         }
 
         .row-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.75rem;
             white-space: nowrap;
         }
 
         .empty-state {
             font-size: 0.8rem;
-            color: #64748B;
-            padding: 2rem 0;
+            color: var(--ink-soft);
+            padding: 2rem 0.25rem;
             text-align: center;
-        }
-
-        .edit-input,
-        .edit-select {
-            font-family: inherit;
-            font-size: 0.75rem;
-            padding: 0.3rem 0.4rem;
-            border: 1px solid #CBD5E1;
-            border-radius: 4px;
-            width: 100%;
-            min-width: 90px;
+            border-top: 1px solid var(--line);
+            margin-top: 1rem;
         }
     </style>
 </head>
@@ -342,27 +336,27 @@
                 <h1 class="page-title">Job Hunt Tracker</h1>
                 <p class="page-subtitle">Every application, its stage, and where it stands.</p>
             </div>
-            <a class="nav-link" href="index.html">&larr; Tailored CVs &amp; Cover Letters</a>
+            <a class="back-link" href="index.html">&lsaquo; Job Applications</a>
         </div>
 
         <div class="toolbar">
-            <div class="stat-row" id="stat-row"></div>
-            <button class="btn btn-primary" id="add-toggle-btn">+ Add Application</button>
+            <div class="tally" id="tally-row"></div>
+            <button class="ink-btn" id="add-toggle-btn">+ Add Application</button>
         </div>
-        <p class="storage-note">Saved in this browser only (not synced across devices or visible to Claude).</p>
+        <p class="storage-note">Saved in this browser only — not synced across devices or visible to Claude.</p>
 
-        <div class="form-card" id="form-card">
-            <div class="form-title" id="form-title">Add Application</div>
-            <div class="form-grid">
-                <div class="form-field span-2">
+        <div class="slip" id="form-card">
+            <div class="slip-title" id="form-title">New entry</div>
+            <div class="slip-grid">
+                <div class="field span-2">
                     <label for="f-job">Job</label>
                     <input type="text" id="f-job" placeholder="Role title">
                 </div>
-                <div class="form-field span-2">
+                <div class="field span-2">
                     <label for="f-company">Company</label>
                     <input type="text" id="f-company" placeholder="Company name">
                 </div>
-                <div class="form-field">
+                <div class="field">
                     <label for="f-platform">Platform</label>
                     <input type="text" id="f-platform" list="platform-options" placeholder="LinkedIn">
                     <datalist id="platform-options">
@@ -374,7 +368,7 @@
                         <option value="Email">
                     </datalist>
                 </div>
-                <div class="form-field">
+                <div class="field">
                     <label for="f-status">Status</label>
                     <select id="f-status">
                         <option value="Completed">Completed</option>
@@ -382,7 +376,7 @@
                         <option value="Draft">Draft</option>
                     </select>
                 </div>
-                <div class="form-field">
+                <div class="field">
                     <label for="f-stage">Stage</label>
                     <select id="f-stage">
                         <option value="Waiting answer">Waiting answer</option>
@@ -391,22 +385,22 @@
                         <option value="Offer">Offer</option>
                     </select>
                 </div>
-                <div class="form-field">
-                    <label for="f-date">Date Sent</label>
+                <div class="field">
+                    <label for="f-date">Date sent</label>
                     <input type="text" id="f-date" placeholder="dd/mm/yyyy">
                 </div>
-                <div class="form-field span-2">
-                    <label for="f-link">Link to Job Description</label>
+                <div class="field span-2">
+                    <label for="f-link">Link to job description</label>
                     <input type="text" id="f-link" placeholder="https://...">
                 </div>
-                <div class="form-field span-4">
+                <div class="field span-4">
                     <label for="f-notes">Notes</label>
                     <input type="text" id="f-notes" placeholder="Optional">
                 </div>
             </div>
-            <div class="form-actions">
-                <button class="btn btn-primary" id="form-save-btn">Save</button>
-                <button class="btn btn-secondary" id="form-cancel-btn">Cancel</button>
+            <div class="slip-actions">
+                <button class="ink-btn" id="form-save-btn">Save</button>
+                <button class="btn-plain" id="form-cancel-btn">Cancel</button>
             </div>
         </div>
 
@@ -419,16 +413,16 @@
                         <th>Platform</th>
                         <th>Status</th>
                         <th>Stage</th>
-                        <th>Date Sent</th>
-                        <th>Job Description</th>
+                        <th>Date sent</th>
+                        <th>Job description</th>
                         <th>Notes</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody id="tracker-body"></tbody>
             </table>
-            <p class="empty-state" id="empty-state" style="display:none;">No applications tracked yet. Click "+ Add Application" to start.</p>
         </div>
+        <p class="empty-state" id="empty-state" style="display:none;">No applications tracked yet. Add the first one above.</p>
     </div>
 
     <script>
@@ -482,27 +476,20 @@
         const table = document.getElementById('tracker-table');
         const tbody = document.getElementById('tracker-body');
         const emptyState = document.getElementById('empty-state');
-        const statRow = document.getElementById('stat-row');
+        const tallyRow = document.getElementById('tally-row');
         const formCard = document.getElementById('form-card');
         const formTitle = document.getElementById('form-title');
         const addToggleBtn = document.getElementById('add-toggle-btn');
         const formSaveBtn = document.getElementById('form-save-btn');
         const formCancelBtn = document.getElementById('form-cancel-btn');
 
-        const fields = ['job', 'company', 'platform', 'status', 'stage', 'date', 'link', 'notes'];
         function formEl(name) { return document.getElementById('f-' + name); }
 
-        function statusClass(status) {
-            if (status === "Completed") return "status-completed";
-            if (status === "Draft") return "status-draft";
-            return "status-waiting";
-        }
-
-        function stageClass(stage) {
-            if (stage === "Rejected") return "stage-rejected";
-            if (stage === "Interview") return "stage-interview";
-            if (stage === "Offer") return "stage-offer";
-            return "stage-waiting";
+        function stageStamp(stage) {
+            if (stage === "Rejected") return "stamp-red";
+            if (stage === "Interview") return "stamp-green";
+            if (stage === "Offer") return "stamp-blue";
+            return "stamp-amber";
         }
 
         function escapeHtml(str) {
@@ -513,7 +500,7 @@
 
         function openAddForm() {
             editingId = null;
-            formTitle.textContent = 'Add Application';
+            formTitle.textContent = 'New entry';
             formEl('job').value = '';
             formEl('company').value = '';
             formEl('platform').value = '';
@@ -528,7 +515,7 @@
 
         function openEditForm(record) {
             editingId = record.id;
-            formTitle.textContent = 'Edit Application';
+            formTitle.textContent = 'Edit entry';
             formEl('job').value = record.job || '';
             formEl('company').value = record.company || '';
             formEl('platform').value = record.platform || '';
@@ -598,7 +585,7 @@
             if (records.length === 0) {
                 table.style.display = 'none';
                 emptyState.style.display = 'block';
-                statRow.innerHTML = '';
+                tallyRow.innerHTML = '';
                 return;
             }
 
@@ -620,34 +607,43 @@
                 { num: counts.waiting, label: "Waiting answer" },
                 { num: counts.rejected, label: "Rejected" }
             ];
-            statRow.innerHTML = stats.map(s => `
-                <div class="stat-card">
-                    <div class="stat-num">${s.num}</div>
-                    <div class="stat-label">${s.label}</div>
+            tallyRow.innerHTML = stats.map(s => `
+                <div class="tally-item">
+                    <div class="tally-num">${s.num}</div>
+                    <div class="tally-label">${s.label}</div>
                 </div>
             `).join('');
 
-            tbody.innerHTML = records.map(a => {
+            // Open applications (anything not yet rejected) stay at the top;
+            // rejected ones sink to the bottom. Stable sort, so relative
+            // order within each group is otherwise untouched.
+            const sortedRecords = [...records].sort((a, b) => {
+                const aRejected = a.stage === "Rejected" ? 1 : 0;
+                const bRejected = b.stage === "Rejected" ? 1 : 0;
+                return aRejected - bRejected;
+            });
+
+            tbody.innerHTML = sortedRecords.map(a => {
                 const jobCell = a.appFolder
                     ? `<a class="jd-link cell-job" href="job-view.html?folder=${encodeURIComponent(a.appFolder)}&title=${encodeURIComponent(a.job)}&company=${encodeURIComponent(a.company)}">${escapeHtml(a.job)}</a>`
                     : `<span class="cell-job">${escapeHtml(a.job)}</span>`;
                 const linkCell = a.link
-                    ? `<a class="jd-link" href="${escapeHtml(a.link)}" target="_blank" rel="noopener">View posting &#8599;</a>`
-                    : `<span class="cell-muted">&mdash;</span>`;
+                    ? `<a class="jd-link" href="${escapeHtml(a.link)}" target="_blank" rel="noopener">View posting</a>`
+                    : `<span class="cell-faint">&mdash;</span>`;
                 return `
                     <tr>
                         <td>${jobCell}</td>
-                        <td class="cell-company">${escapeHtml(a.company)}</td>
-                        <td class="cell-company">${escapeHtml(a.platform)}</td>
-                        <td><span class="badge ${statusClass(a.status)}">${escapeHtml(a.status)}</span></td>
-                        <td><span class="badge ${stageClass(a.stage)}">${escapeHtml(a.stage)}</span></td>
-                        <td class="cell-company">${escapeHtml(a.dateSent) || '&mdash;'}</td>
+                        <td class="cell-muted">${escapeHtml(a.company)}</td>
+                        <td class="cell-muted">${escapeHtml(a.platform)}</td>
+                        <td class="cell-muted">${escapeHtml((a.status || '').toLowerCase())}</td>
+                        <td><span class="stamp ${stageStamp(a.stage)}">${escapeHtml(a.stage)}</span></td>
+                        <td class="cell-muted">${escapeHtml(a.dateSent) || '&mdash;'}</td>
                         <td>${linkCell}</td>
-                        <td class="cell-company">${escapeHtml(a.notes) || '&mdash;'}</td>
+                        <td class="cell-muted">${escapeHtml(a.notes) || '&mdash;'}</td>
                         <td>
                             <div class="row-actions">
-                                <button class="btn btn-secondary btn-small" data-edit="${a.id}">Edit</button>
-                                <button class="btn btn-danger-text btn-small" data-delete="${a.id}">Delete</button>
+                                <button class="btn-plain" data-edit="${a.id}">Edit</button>
+                                <button class="btn-plain danger" data-delete="${a.id}">Delete</button>
                             </div>
                         </td>
                     </tr>

@@ -7,8 +7,21 @@
     <title>Mario Breljak – Job Applications</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --paper: #EFE8D6;
+            --paper-raised: #E6DCC0;
+            --line: #D3C6A0;
+            --line-strong: #B8A878;
+            --ink: #1C2430;
+            --ink-soft: #5B6270;
+            --ink-faint: #9AA0AD;
+            --red: #A63B2E;
+            --green: #2E5C3E;
+            --amber: #7C5D1F;
+        }
+
         *,
         *::before,
         *::after {
@@ -18,134 +31,188 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #e2e4e8;
-            color: #1E293B;
-            padding: 3rem 1.5rem;
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--paper);
+            color: var(--ink);
+            padding: 3.5rem 1.5rem;
+            line-height: 1.55;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
         }
 
         .page {
-            max-width: 960px;
+            max-width: 760px;
             margin: 0 auto;
         }
 
         .page-header {
             display: flex;
-            align-items: flex-start;
+            align-items: flex-end;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            gap: 1rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 2px solid var(--ink);
         }
 
         .page-title {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: #0F172A;
-            letter-spacing: -0.02em;
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 2.1rem;
+            letter-spacing: -0.01em;
+            line-height: 1.05;
         }
 
         .page-subtitle {
-            font-size: 0.85rem;
-            color: #475569;
-            margin-top: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            margin-top: 0.55rem;
+            max-width: 46ch;
         }
 
-        .tracker-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.78rem;
+        .ink-btn {
+            display: inline-block;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.74rem;
             font-weight: 600;
-            color: #ffffff;
-            background: #2563EB;
+            letter-spacing: 0.02em;
+            color: var(--ink);
+            background: var(--paper);
+            border: 1px solid var(--ink);
             text-decoration: none;
-            padding: 0.55rem 1rem;
-            border-radius: 6px;
+            padding: 0.5rem 0.9rem;
             white-space: nowrap;
-            margin-top: 0.15rem;
-            transition: background 0.15s ease;
-        }
-
-        .tracker-btn:hover {
-            background: #1D4ED8;
-        }
-
-        .job-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.1rem;
-        }
-
-        .job-card {
-            background: #ffffff;
-            border-radius: 8px;
-            border-top: 3px solid #2563EB;
-            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
-            padding: 1.25rem 1.4rem;
             cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transition: background 0.12s ease, color 0.12s ease;
         }
 
-        .job-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+        .ink-btn:hover,
+        .ink-btn:focus-visible {
+            background: var(--ink);
+            color: var(--paper);
         }
 
-        .job-card:focus-visible {
-            outline: 2px solid #2563EB;
+        .ink-btn:focus-visible {
+            outline: 2px solid var(--ink);
             outline-offset: 2px;
         }
 
-        .job-title {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #0F172A;
-            line-height: 1.35;
+        .manifest-head {
+            display: grid;
+            grid-template-columns: 3.5rem 1fr auto;
+            gap: 1rem;
+            padding: 1.1rem 0.25rem 0.5rem;
+            font-size: 0.66rem;
+            color: var(--ink-faint);
+            border-bottom: 1px solid var(--line-strong);
         }
 
-        .job-company {
+        .manifest-row {
+            display: grid;
+            grid-template-columns: 3.5rem 1fr auto;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 0.25rem;
+            border-bottom: 1px solid var(--line);
+            cursor: pointer;
+            transition: background 0.12s ease;
+        }
+
+        .manifest-row:hover,
+        .manifest-row:focus-visible {
+            background: var(--paper-raised);
+            outline: none;
+        }
+
+        .manifest-row:focus-visible {
+            box-shadow: inset 3px 0 0 var(--ink);
+        }
+
+        .ref {
             font-size: 0.72rem;
-            font-weight: 500;
-            color: #64748B;
-            margin-top: 0.3rem;
+            color: var(--ink-faint);
+            font-variant-numeric: tabular-nums;
         }
 
-        .job-hint {
-            font-size: 0.64rem;
-            color: #2563EB;
+        .role {
+            font-size: 0.92rem;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-top: 0.8rem;
         }
 
-        .stat-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
-            margin-top: 0.7rem;
+        .company {
+            font-size: 0.76rem;
+            color: var(--ink-soft);
+            margin-top: 0.2rem;
         }
 
-        .stat-badge {
+        .verdict {
+            display: inline-block;
+            margin-top: 0.45rem;
             font-size: 0.6rem;
             font-weight: 700;
-            text-transform: uppercase;
             letter-spacing: 0.04em;
-            padding: 0.2rem 0.5rem;
-            border-radius: 999px;
-            white-space: nowrap;
+            text-transform: uppercase;
+            padding: 0.12rem 0.4rem;
+            border: 1px solid currentColor;
         }
 
-        .stat-good { background: #DBEAFE; color: #1D4ED8; }
-        .stat-excellent { background: #DCFCE7; color: #15803D; }
-        .stat-poor { background: #FEE2E2; color: #B91C1C; }
-        .stat-neutral { background: #F1F5F9; color: #475569; }
+        .verdict-apply { color: var(--green); }
+        .verdict-longshot { color: var(--red); }
+
+        .assess {
+            display: flex;
+        }
+
+        .assess-item {
+            padding: 0 0.65rem;
+            border-left: 1px solid var(--line);
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .assess-item:first-child {
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .assess-item small {
+            display: block;
+            font-size: 0.58rem;
+            font-weight: 500;
+            color: var(--ink-faint);
+            margin-top: 2px;
+        }
+
+        .tone-excellent { color: var(--green); }
+        .tone-good { color: var(--amber); }
+        .tone-poor { color: var(--red); }
+        .tone-neutral { color: var(--ink-soft); }
 
         .empty-state {
             font-size: 0.8rem;
-            color: #64748B;
-            padding: 2rem 0;
+            color: var(--ink-soft);
+            padding: 2rem 0.25rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        @media (max-width: 560px) {
+            .manifest-head {
+                display: none;
+            }
+
+            .manifest-row {
+                grid-template-columns: 1fr;
+                gap: 0.35rem;
+            }
+
+            .assess {
+                border-top: 1px solid var(--line);
+                padding-top: 0.5rem;
+                margin-top: 0.25rem;
+            }
         }
     </style>
 </head>
@@ -156,13 +223,18 @@
         <div class="page-header">
             <div>
                 <h1 class="page-title">Job Applications</h1>
-                <p class="page-subtitle">Click a card to open its tailored CV and cover letter.</p>
+                <p class="page-subtitle">Every tailored CV and cover letter, filed by application.</p>
             </div>
-            <a class="tracker-btn" href="tracker.html">Job Hunt Tracker &rarr;</a>
+            <a class="ink-btn" href="tracker.html">Job Hunt Tracker</a>
         </div>
 
-        <div class="job-grid" id="job-grid"></div>
-        <p class="empty-state" id="empty-state" style="display:none;">No job applications yet.</p>
+        <div class="manifest-head" id="manifest-head">
+            <span>Ref</span>
+            <span>Role</span>
+            <span>Assessment</span>
+        </div>
+        <div id="job-list"></div>
+        <p class="empty-state" id="empty-state" style="display:none;">No job applications filed yet.</p>
     </div>
 
     <script>
@@ -177,6 +249,11 @@
         //                  in the tailored CV + cover letter
         //   adjustment     "Low" (<35%) / "Medium" (35-65%) / "High" (>65%)
         //                  content-similarity diff vs. the base template
+        //   verdict        "Apply" / "Long Shot" — Claude's own judgment call on
+        //                  whether this is genuinely worth applying to, set during
+        //                  Step 1 of the CV skill. Usually tracks matchLevel
+        //                  (Poor -> Long Shot) but is a separate, deliberate call,
+        //                  not an auto-derived threshold.
         const jobs = [
             {
                 title: "Online Marketing & Social Media Manager",
@@ -185,44 +262,197 @@
                 fitScore: 6.5,
                 matchLevel: "Good",
                 atsScore: 81,
-                adjustment: "High"
+                adjustment: "High",
+                verdict: "Apply"
+            },
+            {
+                title: "Digital Marketing Manager (Social Media)",
+                company: "STOXX Ltd.",
+                folder: "digital-marketing-manager-social-media-stoxx",
+                fitScore: 4.5,
+                matchLevel: "Poor",
+                atsScore: 75,
+                adjustment: "Low",
+                verdict: "Long Shot"
+            },
+            {
+                title: "Digital Marketing & E-Business Specialist",
+                company: "MÜLLER-STEINAG Gruppe (Creabeton)",
+                folder: "digital-marketing-e-business-specialist-creabeton",
+                fitScore: 8,
+                matchLevel: "Excellent",
+                atsScore: 100,
+                adjustment: "Medium",
+                verdict: "Apply"
+            },
+            {
+                title: "Digital Account Manager SEM",
+                company: "Publicis Media",
+                folder: "digital-account-manager-sem-publicis-media",
+                fitScore: 8,
+                matchLevel: "Excellent",
+                atsScore: 95,
+                adjustment: "Medium",
+                verdict: "Apply"
+            },
+            {
+                title: "Global Digital Marketing & Content Specialist",
+                company: "SFC KOENIG",
+                folder: "content-digital-marketing-manager-sfc-koenig-dsg",
+                fitScore: 4,
+                matchLevel: "Poor",
+                atsScore: 65,
+                adjustment: "Medium",
+                verdict: "Long Shot"
+            },
+            {
+                title: "Digital Marketing Manager",
+                company: "Maison Truffe AG",
+                folder: "digital-marketing-manager-maison-truffe",
+                fitScore: 6,
+                matchLevel: "Good",
+                atsScore: 75,
+                adjustment: "Medium",
+                verdict: "Apply"
+            },
+            {
+                title: "E-Commerce Sales & Growth Manager",
+                company: "FREITAG lab AG",
+                folder: "ecommerce-sales-growth-manager-freitag",
+                fitScore: 4,
+                matchLevel: "Poor",
+                atsScore: 65,
+                adjustment: "Medium",
+                verdict: "Long Shot"
+            },
+            {
+                title: "SEA & Campaign Manager",
+                company: "easylearn",
+                folder: "sea-campaign-manager-easylearn",
+                fitScore: 8,
+                matchLevel: "Excellent",
+                atsScore: 100,
+                adjustment: "Low",
+                verdict: "Apply"
+            },
+            {
+                title: "Web & Digital Marketing Koordinator*in",
+                company: "Götti Switzerland / Eyetech",
+                folder: "web-digital-marketing-koordinator-goetti-eyetech",
+                fitScore: 8,
+                matchLevel: "Excellent",
+                atsScore: 95,
+                adjustment: "Medium",
+                verdict: "Apply"
+            },
+            {
+                title: "Senior Digital Marketing Manager",
+                company: "asm Fundraising AG",
+                folder: "senior-digital-marketing-manager-asm-fundraising",
+                fitScore: 7.5,
+                matchLevel: "Excellent",
+                atsScore: 50,
+                adjustment: "Medium",
+                verdict: "Apply"
+            },
+            {
+                title: "Marketing Allrounder (Digital Focus)",
+                company: "profawo / kids&co / care&co",
+                folder: "marketing-allrounder-profawo-kidsco-careco",
+                fitScore: 4.5,
+                matchLevel: "Poor",
+                atsScore: 85,
+                adjustment: "Medium",
+                verdict: "Long Shot"
+            },
+            {
+                title: "Mitarbeiter/-in Digital Business",
+                company: "Sanitas Troesch",
+                folder: "mitarbeiter-digital-business-sanitas-troesch",
+                fitScore: 7,
+                matchLevel: "Good",
+                atsScore: 50,
+                adjustment: "Medium",
+                verdict: "Apply"
+            },
+            {
+                title: "E-Commerce & Digital Marketing Manager",
+                company: "COLLAMIN",
+                folder: "ecommerce-digital-marketing-manager-collamin",
+                fitScore: 6,
+                matchLevel: "Good",
+                atsScore: 75,
+                adjustment: "Medium",
+                verdict: "Apply"
+            },
+            {
+                title: "Digital Analyst (E-Commerce)",
+                company: "NZZ",
+                folder: "digital-analyst-ecommerce-nzz",
+                fitScore: 9,
+                matchLevel: "Excellent",
+                atsScore: 90,
+                adjustment: "Medium",
+                verdict: "Apply"
             }
         ];
 
-        const grid = document.getElementById('job-grid');
+        const list = document.getElementById('job-list');
         const emptyState = document.getElementById('empty-state');
+        const manifestHead = document.getElementById('manifest-head');
 
-        function matchClass(level) {
-            if (level === "Excellent") return "stat-excellent";
-            if (level === "Good") return "stat-good";
-            return "stat-poor";
+        function matchTone(level) {
+            if (level === "Excellent") return "tone-excellent";
+            if (level === "Good") return "tone-good";
+            return "tone-poor";
         }
 
-        function atsClass(score) {
-            if (score >= 80) return "stat-excellent";
-            if (score >= 60) return "stat-good";
-            return "stat-poor";
+        function atsTone(score) {
+            if (score >= 80) return "tone-excellent";
+            if (score >= 60) return "tone-good";
+            return "tone-poor";
         }
+
+        function verdictClass(verdict) {
+            return verdict === "Apply" ? "verdict-apply" : "verdict-longshot";
+        }
+
+        // Ref numbers are permanent case IDs tied to each job's position in
+        // the array above (creation order) — they're assigned before sorting
+        // so they don't shuffle around when the display order changes below.
+        const jobsWithRef = jobs.map((job, i) => ({ ...job, ref: String(i + 1).padStart(4, '0') }));
+
+        // Display order: highest fit first, then Apply before Long Shot as a
+        // tiebreaker — recomputed on every load, not a one-time manual sort.
+        const sortedJobs = [...jobsWithRef].sort((a, b) => {
+            if (b.fitScore !== a.fitScore) return b.fitScore - a.fitScore;
+            if (a.verdict !== b.verdict) return a.verdict === "Apply" ? -1 : 1;
+            return 0;
+        });
 
         if (jobs.length === 0) {
+            manifestHead.style.display = 'none';
             emptyState.style.display = 'block';
         } else {
-            jobs.forEach(job => {
-                const card = document.createElement('div');
-                card.className = 'job-card';
-                card.tabIndex = 0;
-                card.setAttribute('role', 'button');
-                card.setAttribute('aria-label', `Open CV and cover letter for ${job.title} at ${job.company}`);
+            sortedJobs.forEach((job) => {
+                const row = document.createElement('div');
+                row.className = 'manifest-row';
+                row.tabIndex = 0;
+                row.setAttribute('role', 'button');
+                row.setAttribute('aria-label', `Open CV and cover letter for ${job.title} at ${job.company}`);
 
-                card.innerHTML = `
-                    <div class="job-title">${job.title}</div>
-                    <div class="job-company">${job.company}</div>
-                    <div class="stat-row">
-                        <span class="stat-badge ${matchClass(job.matchLevel)}">Match: ${job.matchLevel} (${job.fitScore}/10)</span>
-                        <span class="stat-badge ${atsClass(job.atsScore)}">ATS: ${job.atsScore}%</span>
-                        <span class="stat-badge stat-neutral">Adjustment: ${job.adjustment}</span>
+                row.innerHTML = `
+                    <div class="ref">${job.ref}</div>
+                    <div>
+                        <div class="role">${job.title}</div>
+                        <div class="company">${job.company}</div>
+                        <span class="verdict ${verdictClass(job.verdict)}">${job.verdict}</span>
                     </div>
-                    <div class="job-hint">CV + Cover Letter</div>
+                    <div class="assess">
+                        <span class="assess-item ${matchTone(job.matchLevel)}">${job.fitScore}<small>fit</small></span>
+                        <span class="assess-item ${atsTone(job.atsScore)}">${job.atsScore}%<small>ats</small></span>
+                        <span class="assess-item tone-neutral">${job.adjustment}<small>adj</small></span>
+                    </div>
                 `;
 
                 const open = () => {
@@ -234,15 +464,15 @@
                     window.location.href = `job-view.html?${params.toString()}`;
                 };
 
-                card.addEventListener('click', open);
-                card.addEventListener('keydown', (e) => {
+                row.addEventListener('click', open);
+                row.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         open();
                     }
                 });
 
-                grid.appendChild(card);
+                list.appendChild(row);
             });
         }
     </script>
