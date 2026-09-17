@@ -17,10 +17,14 @@
             --ink: #1C2430;
             --ink-soft: #5B6270;
             --ink-faint: #9AA0AD;
-            --red: #A63B2E;
-            --green: #2E5C3E;
-            --amber: #7C5D1F;
+            --red: #B3261E;
+            --red-bg: #F6DAD6;
+            --green: #15803D;
+            --green-bg: #D6EEDD;
+            --amber: #92650A;
+            --amber-bg: #F3E6C8;
             --blue: #2C3A66;
+            --blue-bg: #DAE0EE;
         }
 
         *,
@@ -269,6 +273,13 @@
             vertical-align: top;
         }
 
+        /* Marks the boundary between open and rejected applications — a
+           double rule, like the line a ledger draws before a subtotal. */
+        .stage-boundary td {
+            border-bottom: 4px double var(--ink);
+            padding-bottom: 0.95rem;
+        }
+
         tbody tr:hover {
             background: var(--paper-raised);
         }
@@ -287,18 +298,18 @@
 
         .stamp {
             display: inline-block;
-            font-size: 0.62rem;
+            font-size: 0.64rem;
             font-weight: 700;
             letter-spacing: 0.04em;
             text-transform: uppercase;
-            padding: 0.15rem 0.45rem;
+            padding: 0.2rem 0.5rem;
             border: 1px solid currentColor;
         }
 
-        .stamp-red { color: var(--red); }
-        .stamp-green { color: var(--green); }
-        .stamp-amber { color: var(--amber); }
-        .stamp-blue { color: var(--blue); }
+        .stamp-red { color: var(--red); background: var(--red-bg); }
+        .stamp-green { color: var(--green); background: var(--green-bg); }
+        .stamp-amber { color: var(--amber); background: var(--amber-bg); }
+        .stamp-blue { color: var(--blue); background: var(--blue-bg); }
 
         .jd-link {
             font-size: 0.78rem;
@@ -623,7 +634,12 @@
                 return aRejected - bRejected;
             });
 
-            tbody.innerHTML = sortedRecords.map(a => {
+            // The last open row (if a boundary actually exists) gets a
+            // double rule to mark the split before rejected applications.
+            const firstRejectedIndex = sortedRecords.findIndex(a => a.stage === "Rejected");
+            const boundaryIndex = firstRejectedIndex > 0 ? firstRejectedIndex - 1 : -1;
+
+            tbody.innerHTML = sortedRecords.map((a, i) => {
                 const jobCell = a.appFolder
                     ? `<a class="jd-link cell-job" href="job-view.html?folder=${encodeURIComponent(a.appFolder)}&title=${encodeURIComponent(a.job)}&company=${encodeURIComponent(a.company)}">${escapeHtml(a.job)}</a>`
                     : `<span class="cell-job">${escapeHtml(a.job)}</span>`;
@@ -631,7 +647,7 @@
                     ? `<a class="jd-link" href="${escapeHtml(a.link)}" target="_blank" rel="noopener">View posting</a>`
                     : `<span class="cell-faint">&mdash;</span>`;
                 return `
-                    <tr>
+                    <tr${i === boundaryIndex ? ' class="stage-boundary"' : ''}>
                         <td>${jobCell}</td>
                         <td class="cell-muted">${escapeHtml(a.company)}</td>
                         <td class="cell-muted">${escapeHtml(a.platform)}</td>

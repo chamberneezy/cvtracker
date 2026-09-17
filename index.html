@@ -17,9 +17,11 @@
             --ink: #1C2430;
             --ink-soft: #5B6270;
             --ink-faint: #9AA0AD;
-            --red: #A63B2E;
-            --green: #2E5C3E;
-            --amber: #7C5D1F;
+            --red: #B3261E;
+            --red-bg: #F6DAD6;
+            --green: #15803D;
+            --green-bg: #D6EEDD;
+            --amber: #92650A;
         }
 
         *,
@@ -150,16 +152,16 @@
         .verdict {
             display: inline-block;
             margin-top: 0.45rem;
-            font-size: 0.6rem;
+            font-size: 0.62rem;
             font-weight: 700;
             letter-spacing: 0.04em;
             text-transform: uppercase;
-            padding: 0.12rem 0.4rem;
+            padding: 0.18rem 0.5rem;
             border: 1px solid currentColor;
         }
 
-        .verdict-apply { color: var(--green); }
-        .verdict-longshot { color: var(--red); }
+        .verdict-apply { color: var(--green); background: var(--green-bg); }
+        .verdict-longshot { color: var(--red); background: var(--red-bg); }
 
         .assess {
             display: flex;
@@ -459,7 +461,12 @@
                     const params = new URLSearchParams({
                         folder: job.folder,
                         title: job.title,
-                        company: job.company
+                        company: job.company,
+                        fitScore: job.fitScore,
+                        matchLevel: job.matchLevel,
+                        atsScore: job.atsScore,
+                        adjustment: job.adjustment,
+                        verdict: job.verdict
                     });
                     window.location.href = `job-view.html?${params.toString()}`;
                 };

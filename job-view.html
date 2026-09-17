@@ -17,6 +17,11 @@
             --ink: #1C2430;
             --ink-soft: #5B6270;
             --ink-faint: #9AA0AD;
+            --red: #B3261E;
+            --red-bg: #F6DAD6;
+            --green: #15803D;
+            --green-bg: #D6EEDD;
+            --amber: #92650A;
         }
 
         *,
@@ -77,6 +82,154 @@
             margin-top: 0.4rem;
         }
 
+        /* ── Fit Assessment ── */
+        .fit-block {
+            border: 1px solid var(--ink);
+            padding: 1.1rem 1.25rem 1.25rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .fit-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            padding-bottom: 0.9rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--line-strong);
+        }
+
+        .verdict {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.22rem 0.55rem;
+            border: 1px solid currentColor;
+        }
+
+        .verdict-apply { color: var(--green); background: var(--green-bg); }
+        .verdict-longshot { color: var(--red); background: var(--red-bg); }
+
+        .fit-metrics {
+            display: flex;
+        }
+
+        .fit-metric-item {
+            padding: 0 0.7rem;
+            border-left: 1px solid var(--line);
+            font-size: 0.76rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .fit-metric-item:first-child {
+            border-left: none;
+            padding-left: 0;
+        }
+
+        .fit-metric-item small {
+            display: block;
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--ink-faint);
+            margin-top: 2px;
+        }
+
+        .tone-excellent { color: var(--green); }
+        .tone-good { color: var(--amber); }
+        .tone-poor { color: var(--red); }
+        .tone-neutral { color: var(--ink-soft); }
+
+        .fit-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .fit-col-title {
+            font-size: 0.66rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--ink-soft);
+            margin-bottom: 0.55rem;
+        }
+
+        .fit-list {
+            list-style: none;
+            font-size: 0.78rem;
+            line-height: 1.6;
+        }
+
+        .fit-list li {
+            padding-left: 0.9rem;
+            position: relative;
+            margin-bottom: 0.45rem;
+        }
+
+        .fit-list li::before {
+            content: "\2013";
+            position: absolute;
+            left: 0;
+            color: var(--ink-faint);
+        }
+
+        .fit-note {
+            font-size: 0.78rem;
+            color: var(--ink-soft);
+            font-style: italic;
+        }
+
+        @media (max-width: 640px) {
+            .fit-columns {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* ── CV / Cover Letter tabbed viewer ──
+           Only one document loads at a time: switching tabs replaces the
+           single iframe's src rather than stacking multiple pre-loaded
+           iframes, so opening a job never means scrolling past a document
+           you didn't ask for. */
+        .doc-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .doc-tab {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--ink);
+            background: var(--paper);
+            border: 1px solid var(--ink);
+            padding: 0.5rem 0.9rem;
+            cursor: pointer;
+            transition: background 0.12s ease, color 0.12s ease;
+        }
+
+        .doc-tab:hover,
+        .doc-tab:focus-visible {
+            background: var(--paper-raised);
+        }
+
+        .doc-tab.active {
+            background: var(--ink);
+            color: var(--paper);
+        }
+
+        .doc-tab:focus-visible {
+            outline: 2px solid var(--ink);
+            outline-offset: 2px;
+        }
+
         .doc-block {
             border: 1px solid var(--ink);
             margin-bottom: 1.75rem;
@@ -132,44 +285,317 @@
             <p class="page-subtitle" id="job-company"></p>
         </div>
 
-        <div id="content"></div>
+        <div id="fit-block-wrap"></div>
+
+        <div class="doc-tabs" id="doc-tabs"></div>
+        <div class="doc-block" id="doc-block" style="display:none;">
+            <div class="doc-block-header">
+                <span class="doc-block-title" id="doc-title">Document</span>
+                <a class="doc-block-open" id="doc-open-link" target="_blank" rel="noopener">Open full page</a>
+            </div>
+            <iframe class="doc-frame" id="doc-iframe" title="Document"></iframe>
+        </div>
         <p class="empty-state" id="empty-state" style="display:none;">No job specified.</p>
     </div>
 
     <script>
+        // Free-text fit rationale per job, keyed by folder — the numeric
+        // scores (fitScore/matchLevel/atsScore/adjustment/verdict) live in
+        // index.html's `jobs` array (the single source of truth for those)
+        // and arrive here as URL params; this object only holds the
+        // strengths/gaps explanation, which doesn't fit in a URL param.
+        // Add an entry here whenever a new job folder is created.
+        const fitSummaries = {
+            "online-marketing-social-media-manager-pistor": {
+                strengths: [
+                    "GA4 tracking depth, including Consent Mode compliance, directly matches Pistor's stated need",
+                    "Performance-marketing (SEA/SEO) experience spans the full customer journey, not just one channel",
+                    "KPI dashboards and SQL-based reporting are an established, recurring strength",
+                    "Internal/external stakeholder and content coordination for digital channels",
+                    "German fluency"
+                ],
+                gaps: [
+                    "The role title leans \"Social Media Manager,\" but the background is analytics/performance-marketing-led rather than hands-on content creation",
+                    "No formal marketing/communications degree (MSc IT instead)"
+                ]
+            },
+            "digital-marketing-manager-social-media-stoxx": {
+                strengths: [
+                    "GA4 and Looker Studio are named directly in the JD and are daily tools",
+                    "Real LinkedIn Ads + WordPress + Shopify experience, via Adssential",
+                    "HubSpot and GTM cover the CRM/automation ask",
+                    "German, English, and Croatian directly satisfy \"German plus an additional European language\"",
+                    "AI-tool fluency matches their listed requirement"
+                ],
+                gaps: [
+                    "No organic social/content-writing or video/graphic-design portfolio (Premiere Pro, Photoshop, Illustrator)",
+                    "No financial-services or index-provider industry background",
+                    "Degree is MSc IT, not Marketing/Comms"
+                ]
+            },
+            "digital-marketing-e-business-specialist-creabeton": {
+                strengths: [
+                    "Website/online-shop operations (Shopify, WordPress) are a direct, established match",
+                    "Campaign planning + budget control + tracking is a core, recurring strength",
+                    "Newsletter/marketing-automation tools were already established (Mailchimp, ActiveCampaign, SendinBlue, HubSpot)",
+                    "QA/audit process experience and AI-tool fluency both map directly",
+                    "One of the strongest overall matches across every application"
+                ],
+                gaps: [
+                    "No explicit job title was given in the posting, so the CV header title was inferred from the responsibilities described"
+                ]
+            },
+            "digital-account-manager-sem-publicis-media": {
+                strengths: [
+                    "Google Ads / Paid Search depth is core throughout the career history",
+                    "Looker Studio is literally DataStudio (same tool, rebranded) — a direct match to their listed tool",
+                    "Budget governance and agency-side client consulting (Adssential) map onto \"ganzheitliche Kundenbetreuung\"",
+                    "German and English fluency exactly as required"
+                ],
+                gaps: [
+                    "No confirmed hands-on SA360 or Microsoft Ads experience — only Google Marketing Platform adjacency via Campaign Manager 360/DV360",
+                    "No held Google Search certification (listed as \"von Vorteil,\" not required)"
+                ]
+            },
+            "content-digital-marketing-manager-sfc-koenig-dsg": {
+                strengths: [
+                    "MSc IT gives a genuine \"technical translator\" angle for explaining complex products, which this role explicitly wants",
+                    "SEO and web analytics are established strengths",
+                    "AI-tool fluency for content/research matches their ask directly",
+                    "Multilingual (German/English/Croatian) and prior B2B campaign development"
+                ],
+                gaps: [
+                    "No writing/storytelling portfolio (Fachartikel, Case Studies)",
+                    "No PowerPoint/Canva/Adobe Creative Cloud/Figma presentation-design experience",
+                    "No formal Marketing/Communications degree",
+                    "Supporting an executive with presentations (~15% of the role) is unproven territory"
+                ]
+            },
+            "digital-marketing-manager-maison-truffe": {
+                strengths: [
+                    "Digital Commerce Leadership (shop, campaigns, CRO, SEO, performance marketing, IT-partner interface) — the role's stated primary focus — is a strong match",
+                    "The \"KMU, limited resources, get it done\" angle maps directly onto the Adssential co-founder background"
+                ],
+                gaps: [
+                    "Roughly a third of the role — trade-fair logistics (booth building, travel/hotel planning), print-catalog production, and cross-brand Corporate Identity stewardship — is genuinely unproven territory, not just a missing tool"
+                ]
+            },
+            "ecommerce-sales-growth-manager-freitag": {
+                strengths: [
+                    "Data-driven decision-making — turning webshop data into growth actions — is a real, recurring strength and matches the role's core mission",
+                    "GA4, SEO, Shopify, and Jira/agile-PM background all transfer"
+                ],
+                gaps: [
+                    "ERP systems are unevidenced — a genuinely different technical domain",
+                    "No marketplace/affiliate-partner negotiation experience — this is commercial/sales work, not marketing",
+                    "No stationary-retail background",
+                    "Limited exposure to China/Japan market specifics, which this role explicitly covers"
+                ]
+            },
+            "sea-campaign-manager-easylearn": {
+                strengths: [
+                    "Google Ads + LinkedIn Ads depth in a B2B context is a real, direct match — Adssential ran LinkedIn Ads for B2B clients specifically",
+                    "Tracking and data analysis (GA4, GTM) go beyond what the role even asks for",
+                    "German/English fluency for the CH/DE market exactly as required",
+                    "One of the strongest, most direct matches across every application this round"
+                ],
+                gaps: []
+            },
+            "web-digital-marketing-koordinator-goetti-eyetech": {
+                strengths: [
+                    "Nearly every named tool — Google Ads, Meta, GA4/Tag Manager, SEO, WordPress with Elementor — is a direct, pre-established match, not a stretch",
+                    "GEO (Generative Engine Optimisation) is already a listed skill from other CV variants",
+                    "Hands-on WordPress/Elementor/Shopify build experience matches the \"you build it yourself\" requirement genuinely"
+                ],
+                gaps: [
+                    "French (listed as \"von Vorteil,\" not required)",
+                    "No optics-industry background (also listed as \"von Vorteil,\" not required)"
+                ]
+            },
+            "senior-digital-marketing-manager-asm-fundraising": {
+                strengths: [
+                    "Every \"Muss\" (must-have) requirement is strongly met: Meta Ads Manager depth, Google Ads, email marketing/automation, client-facing independent project leadership, German, AI interest"
+                ],
+                gaps: [
+                    "No hands-on Webflow, donex, Payrexx, or amber-Datenbank experience",
+                    "No NPO/NGO/fundraising-sector background",
+                    "All of the above are listed as \"Ein Plus\" (nice-to-have), not required — which is why the ATS score reads much lower than the fit score: it counts every JD term literally, must-have or not"
+                ]
+            },
+            "marketing-allrounder-profawo-kidsco-careco": {
+                strengths: [
+                    "The digital two-thirds of the role — website/UX/CRO, SEO/GEO, SEA/Google Ads with budget responsibility, CRM/newsletter automation — is genuinely strong"
+                ],
+                gaps: [
+                    "French is stated alongside German as completing the profile here (not \"von Vorteil\" like other postings) — a real, required gap, not a nice-to-have",
+                    "Adobe design skill is emphasized twice in the posting (\"kannst du zaubern\") and is entirely unevidenced",
+                    "No formal marketing/digital-marketing education"
+                ]
+            },
+            "mitarbeiter-digital-business-sanitas-troesch": {
+                strengths: [
+                    "Requirements are stated as an \"or\" list (Digital Business / eCommerce / CRM / Business Analysis / Project Management) that's cleared easily",
+                    "Requirements-gathering and stakeholder-bridging is already established — Adssential's \"translating commercial goals into technical requirement catalogues\" is exactly this skill",
+                    "API integrations, process automation, and AI-tool interest all map directly"
+                ],
+                gaps: [
+                    "Salesforce Commerce Cloud specifically is unevidenced",
+                    "Clarity and Semrush are niche tools not used before",
+                    "All three are listed as \"besonders spannend\" bonuses, not requirements — again why ATS reads lower than the fit score"
+                ]
+            },
+            "ecommerce-digital-marketing-manager-collamin": {
+                strengths: [
+                    "WordPress + WooCommerce + Google Ads + Google Analytics are all named exactly in the posting and are already established tools",
+                    "Budget responsibility and agency/partner coordination are a recurring, established pattern",
+                    "CRM/newsletter automation as a category (via Mailchimp, ActiveCampaign, HubSpot) transfers, even without the specific named tools"
+                ],
+                gaps: [
+                    "Content creation — blog, social, newsletter copy, brand storytelling — has no portfolio behind it",
+                    "Design tools (Canva and/or Adobe Creative Cloud/InDesign) for POS materials and flyers are unevidenced",
+                    "Offline shopper activation and events are a different, in-person skill set",
+                    "Klaviyo and Zoho specifically haven't been used, though the general CRM/automation category has"
+                ]
+            },
+            "digital-analyst-ecommerce-nzz": {
+                strengths: [
+                    "The required degree field (Wirtschaftsinformatik / Datenmanagement / Data Analytics) is literally the held MSc IT — the first application where that recurring \"wrong degree field\" gap simply doesn't apply",
+                    "SQL and BI tools (Power BI, Looker Studio, BigQuery) are core, established strengths",
+                    "Tracking-requirements definition and A/B testing are both specialties, not just checkboxes",
+                    "Direct Swiss media-industry experience at 20 Minuten is a genuine, non-generic hook for NZZ specifically",
+                    "The strongest overall fit of every application this round"
+                ],
+                gaps: [
+                    "Formal training/knowledge-transfer delivery is a lighter area — not much documented experience running structured sessions",
+                    "Tracking depth is mostly web-focused; app-specific tracking (e.g. Firebase/mobile SDKs) isn't explicitly evidenced"
+                ]
+            }
+        };
+
+        // Cover-letter variants per job, keyed by folder. Jobs not listed
+        // here just get a single "Cover Letter" tab pointing at
+        // cover_letter.html. Add an entry when a job gets an alternate
+        // version (e.g. a B1/B2-calibrated German rewrite alongside the
+        // more polished original) — both must state the same facts (e.g.
+        // language level), they only differ in register/style.
+        const coverLetterVariants = {
+            "online-marketing-social-media-manager-pistor": [
+                { label: "Cover Letter — Polished", file: "cover_letter.html" },
+                { label: "Cover Letter — B1/B2", file: "cover_letter_b1b2.html" }
+            ],
+            "digital-marketing-manager-social-media-stoxx": [
+                { label: "Cover Letter — Polished", file: "cover_letter.html" },
+                { label: "Cover Letter — B1/B2", file: "cover_letter_b1b2.html" }
+            ]
+        };
+
         const params = new URLSearchParams(window.location.search);
         const folder = params.get('folder');
         const title = params.get('title') || 'Job Application';
         const company = params.get('company') || '';
+        const fitScore = params.get('fitScore');
+        const matchLevel = params.get('matchLevel');
+        const atsScore = params.get('atsScore');
+        const adjustment = params.get('adjustment');
+        const verdict = params.get('verdict');
 
         document.getElementById('job-title').textContent = title;
         document.getElementById('job-company').textContent = company;
 
-        const content = document.getElementById('content');
+        const fitBlockWrap = document.getElementById('fit-block-wrap');
+        const docTabsEl = document.getElementById('doc-tabs');
+        const docBlockEl = document.getElementById('doc-block');
+        const docTitleEl = document.getElementById('doc-title');
+        const docOpenEl = document.getElementById('doc-open-link');
+        const docIframeEl = document.getElementById('doc-iframe');
         const emptyState = document.getElementById('empty-state');
+
+        function matchTone(level) {
+            if (level === "Excellent") return "tone-excellent";
+            if (level === "Good") return "tone-good";
+            return "tone-poor";
+        }
+
+        function atsTone(score) {
+            if (score >= 80) return "tone-excellent";
+            if (score >= 60) return "tone-good";
+            return "tone-poor";
+        }
+
+        function verdictClass(v) {
+            return v === "Apply" ? "verdict-apply" : "verdict-longshot";
+        }
 
         if (!folder) {
             emptyState.style.display = 'block';
         } else {
-            const cvPath = `jobs/${folder}/cv.html`;
-            const coverPath = `jobs/${folder}/cover_letter.html`;
+            const covers = coverLetterVariants[folder] || [{ label: "Cover Letter", file: "cover_letter.html" }];
+            const tabs = [
+                { label: "CV", file: "cv.html" },
+                ...covers
+            ].map(t => ({ label: t.label, path: `jobs/${folder}/${t.file}` }));
 
-            content.innerHTML = `
-                <div class="doc-block">
-                    <div class="doc-block-header">
-                        <span class="doc-block-title">CV</span>
-                        <a class="doc-block-open" href="${cvPath}" target="_blank" rel="noopener">Open full page</a>
+            if (fitScore && verdict) {
+                const summary = fitSummaries[folder] || { strengths: [], gaps: [] };
+                const strengthsHtml = summary.strengths.length
+                    ? summary.strengths.map(s => `<li>${s}</li>`).join('')
+                    : '<li class="fit-note" style="list-style:none;padding-left:0;">Not yet documented.</li>';
+                const gapsHtml = summary.gaps.length
+                    ? summary.gaps.map(g => `<li>${g}</li>`).join('')
+                    : '<p class="fit-note">No notable gaps — a strong match across the board.</p>';
+
+                fitBlockWrap.innerHTML = `
+                    <div class="fit-block">
+                        <div class="fit-head">
+                            <span class="verdict ${verdictClass(verdict)}">${verdict}</span>
+                            <div class="fit-metrics">
+                                <span class="fit-metric-item ${matchTone(matchLevel)}">${fitScore}<small>fit</small></span>
+                                <span class="fit-metric-item ${atsTone(Number(atsScore))}">${atsScore}%<small>ats</small></span>
+                                <span class="fit-metric-item tone-neutral">${adjustment}<small>adj</small></span>
+                            </div>
+                        </div>
+                        <div class="fit-columns">
+                            <div>
+                                <div class="fit-col-title">Strong match</div>
+                                <ul class="fit-list">${strengthsHtml}</ul>
+                            </div>
+                            <div>
+                                <div class="fit-col-title">Real gaps</div>
+                                ${summary.gaps.length ? `<ul class="fit-list">${gapsHtml}</ul>` : gapsHtml}
+                            </div>
+                        </div>
                     </div>
-                    <iframe class="doc-frame" src="${cvPath}" title="CV"></iframe>
-                </div>
-                <div class="doc-block">
-                    <div class="doc-block-header">
-                        <span class="doc-block-title">Cover letter</span>
-                        <a class="doc-block-open" href="${coverPath}" target="_blank" rel="noopener">Open full page</a>
-                    </div>
-                    <iframe class="doc-frame" src="${coverPath}" title="Cover Letter"></iframe>
-                </div>
-            `;
+                `;
+            }
+
+            docBlockEl.style.display = 'block';
+
+            let activeIndex = 0;
+
+            function renderTabs() {
+                docTabsEl.innerHTML = tabs.map((t, i) =>
+                    `<button class="doc-tab${i === activeIndex ? ' active' : ''}" data-index="${i}">${t.label}</button>`
+                ).join('');
+                docTabsEl.querySelectorAll('.doc-tab').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        activeIndex = Number(btn.getAttribute('data-index'));
+                        renderTabs();
+                        renderActiveDoc();
+                    });
+                });
+            }
+
+            function renderActiveDoc() {
+                const t = tabs[activeIndex];
+                docTitleEl.textContent = t.label;
+                docOpenEl.href = t.path;
+                // Only the active tab's document is ever loaded — switching
+                // tabs replaces this src rather than pre-loading every doc.
+                docIframeEl.src = t.path;
+            }
+
+            renderTabs();
+            renderActiveDoc();
         }
     </script>
 

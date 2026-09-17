@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Bewerbungsschreiben - Mario Breljak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1E293B;
+            margin: 0;
+            padding: 0;
+            font-size: 9.5pt;
+            line-height: 1.5;
+            background-color: #ffffff;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 48px;
+        }
+
+        .header {
+            border-bottom: 2px solid #2563EB;
+            padding-bottom: 20px;
+            margin-bottom: 32px;
+        }
+
+        .candidate-name {
+            font-size: 22pt;
+            font-weight: 700;
+            color: #0F172A;
+            margin: 0 0 2px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .candidate-title {
+            font-size: 11pt;
+            font-weight: 600;
+            color: #475569;
+            margin: 0 0 8px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info {
+            font-size: 8.5pt;
+            color: #64748B;
+        }
+
+        .contact-info a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        .date-line {
+            font-size: 9pt;
+            color: #64748B;
+            text-align: right;
+            margin-bottom: 24px;
+        }
+
+        .subject-line {
+            font-weight: 700;
+            font-size: 10.5pt;
+            color: #0F172A;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .signature {
+            margin-top: 32px;
+        }
+
+        .signature-name {
+            font-weight: 700;
+            color: #0F172A;
+            font-size: 10.5pt;
+        }
+
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: #2563EB;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            font-size: 9pt;
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        @media print {
+            .print-btn {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="print-btn" onclick="window.print()">Als PDF speichern / Drucken</button>
+
+    <div class="container">
+        <div class="header">
+            <div class="candidate-name">Mario Breljak, MSc</div>
+            <div class="candidate-title">ONLINE MARKETING & PERFORMANCE MANAGER</div>
+            <div class="contact-info">
+                Luzern, Schweiz | +41 76 804 63 17 | <a
+                    href="mailto:mario.breljak@gmail.com">mario.breljak@gmail.com</a> | <a
+                    href="https://www.linkedin.com/in/mario-breljak-34322182/">LinkedIn-Profil</a>
+            </div>
+        </div>
+
+        <div class="date-line">Luzern, 15. September 2026</div>
+
+        <div class="subject-line">Bewerbung als Online Marketing und Social Media Manager</div>
+
+        <p>Sehr geehrte Damen und Herren,</p>
+
+        <p>Als ich die Stellenanzeige der Pistor AG gelesen habe, ist mir vor allem eines aufgefallen: Sie
+            verbinden moderne Logistik mit einer klaren Haltung zu Nachhaltigkeit und mit echter Nähe zu Ihren
+            Kund:innen. Genau diese Mischung spricht mich an.</p>
+
+        <p>Ich habe einen Master in Information Technology und arbeite seit über zehn Jahren im Bereich Online
+            Marketing, E-Commerce und Performance Marketing. Zuletzt bei Swiss Casinos und davor bei 20 Minuten habe
+            ich Performance-Kampagnen entlang der ganzen Customer Journey gesteuert und dabei Web- und Shop-Kanäle
+            laufend verbessert. Ich arbeite gerne mit Zahlen: Ich baue KPI-Dashboards und SQL-Auswertungen auf, um
+            daraus klare nächste Schritte abzuleiten. Genau das brauchen Sie, wenn Sie Ihre Website und Ihre
+            E-Commerce-Kanäle weiterentwickeln wollen.</p>
+
+        <p>Ein technischer Schwerpunkt von mir ist Google Analytics 4 – von der technischen Einrichtung über
+            Consent Mode bis zur Auswertung der Daten. Dazu kommt Erfahrung in der Zusammenarbeit mit internen
+            Teams und externen Partnern sowie in der Koordination von Inhalten über verschiedene digitale Kanäle
+            hinweg. Ich bringe gerne Struktur in solche Themen und bleibe dabei zuverlässig dran.</p>
+
+        <p>Mein Deutsch liegt auf B1/B2-Niveau – für die tägliche Arbeit reicht das gut, auch wenn ich kein
+            Muttersprachler bin. Ich würde mich sehr freuen, die Erfolgsgeschichte der Pistor AG aktiv
+            mitzugestalten, und freue mich auf ein persönliches Gespräch.</p>
+
+        <div class="signature">
+            <p>Mit freundlichen Grüssen</p>
+            <div class="signature-name">Mario Breljak, MSc</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
